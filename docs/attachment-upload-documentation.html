@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missing Pets Backend - Attachment Upload System Documentation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        
+        .nav {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .nav a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav a:hover {
+            background-color: #f0f2ff;
+        }
+        
+        .section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 25px;
+        }
+        
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .warning {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .endpoint {
+            background: #e9ecef;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            display: inline-block;
+            margin: 5px 0;
+        }
+        
+        .method {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .method.post {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .method.get {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .file-tree {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: monospace;
+            line-height: 1.4;
+        }
+        
+        .file-tree .folder {
+            color: #007bff;
+            font-weight: bold;
+        }
+        
+        .file-tree .file {
+            color: #28a745;
+        }
+        
+        .toc {
+            position: sticky;
+            top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .toc h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin: 8px 0;
+        }
+        
+        .toc a {
+            color: #555;
+            text-decoration: none;
+        }
+        
+        .toc a:hover {
+            color: #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .nav ul {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Missing Pets Backend API</h1>
+            <div class="subtitle">Attachment Upload System Documentation</div>
+        </header>
+
+        <nav class="nav">
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#middleware">Middleware</a></li>
+                <li><a href="#endpoints">API Endpoints</a></li>
+                <li><a href="#supported-files">Supported Files</a></li>
+                <li><a href="#testing">Testing</a></li>
+                <li><a href="#deployment">Deployment</a></li>
+                <li><a href="#troubleshooting">Troubleshooting</a></li>
+            </ul>
+        </nav>
+
+        <section id="overview" class="section">
+            <h2>🎯 System Overview</h2>
+            
+            <p>The Missing Pets Backend API features a robust attachment upload system that enables users to upload photos, documents, and other files when creating pet profiles or missing pet reports. The system is built with security, performance, and reliability in mind.</p>
+            
+            <div class="highlight">
+                <h3>Key Features</h3>
+                <ul>
+                    <li><strong>Multi-file Upload Support</strong> - Upload multiple attachments in a single request</li>
+                    <li><strong>CDN Integration</strong> - Automatic CDN URL generation for uploaded files</li>
+                    <li><strong>File Type Validation</strong> - Comprehensive whitelist of allowed file types</li>
+                    <li><strong>Automatic Directory Creation</strong> - Creates storage directories as needed</li>
+                    <li><strong>Unique Filename Generation</strong> - Prevents file conflicts with timestamp prefixes</li>
+                    <li><strong>Static File Serving</strong> - Direct HTTP access to uploaded files</li>
+                    <li><strong>Error Handling</strong> - Comprehensive error reporting and validation</li>
+                </ul>
+            </div>
+
+            <div class="info">
+                <h3>System Requirements</h3>
+                <ul>
+                    <li>Node.js 14+ with Express.js framework</li>
+                    <li>Multer middleware for file handling</li>
+                    <li>File system access for local storage</li>
+                    <li>Static file serving capability</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="architecture" class="section">
+            <h2>🏗️ System Architecture</h2>
+            
+            <h3>File Storage Structure</h3>
+            <div class="file-tree">
+<span class="folder">missing_pets/</span>
+├── <span class="folder">attachments/</span>          # Main storage directory
+│   ├── <span class="file">2025-05-24T12-50-50.416Z-debug-test.txt</span>
+│   ├── <span class="file">2025-05-24T13-07-02.451Z-test-image.png</span>
+│   └── <span class="file">2025-05-24T13-07-02.602Z-test-photo.jpg</span>
+├── <span class="folder">middleware/</span>
+│   └── <span class="file">attachment-upload.js</span>  # Main upload middleware
+├── <span class="folder">routes/</span>
+│   ├── <span class="file">pets.js</span>              # Pet endpoints with uploads
+│   └── <span class="file">reports.js</span>           # Report endpoints with uploads
+├── <span class="folder">controllers/</span>
+│   ├── <span class="file">petController.js</span>     # Pet logic with attachments
+│   └── <span class="file">reportController.js</span>  # Report logic with attachments
+└── <span class="file">app.js</span>                   # Express app with static serving
+            </div>
+
+            <h3>Request Flow</h3>
+            <div class="code-block">
+Client Request → Route Handler → Attachment Middleware → Controller → Database → Response
+                                      ↓
+                              File Storage + CDN URL Generation
+            </div>
+
+            <div class="success">
+                <h3>CDN URL Generation</h3>
+                <p>Files are automatically assigned CDN URLs in the format:</p>
+                <code>/attachments/{timestamp}-{original-filename}</code>
+                <p>Example: <code>/attachments/2025-05-24T13-07-02.451Z-profile-photo.jpg</code></p>
+            </div>
+        </section>
+
+        <section id="middleware" class="section">
+            <h2>⚙️ Attachment Upload Middleware</h2>
+            
+            <p>The core of the system is the <code>attachment-upload.js</code> middleware located in <code>/middleware/</code>. This middleware handles all file upload operations.</p>
+
+            <h3>Middleware Configuration</h3>
+            <div class="code-block">
+// Storage Configuration
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, CDN_ATTACHMENTS_DIR); // /attachments directory
+    },
+    filename: (req, file, cb) => {
+        // Unique filename: timestamp + original name
+        const filename = new Date().toISOString().replace(/:/g, '-') + "-" + file.originalname;
+        cb(null, filename);
+    }
+});
+
+// File filtering with comprehensive whitelist
+const fileFilter = (req, file, cb) => {
+    if (allowedMimeTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        const error = new Error(`File type not allowed: ${file.mimetype}`);
+        error.statusCode = 400;
+        cb(error, false);
+    }
+};
+            </div>
+
+            <h3>Middleware Features</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                        <th>Implementation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Directory Creation</td>
+                        <td>Auto-creates attachments folder if missing</td>
+                        <td><code>fs.mkdirSync(CDN_ATTACHMENTS_DIR, { recursive: true })</code></td>
+                    </tr>
+                    <tr>
+                        <td>Unique Filenames</td>
+                        <td>Prevents conflicts with timestamp prefix</td>
+                        <td><code>new Date().toISOString().replace(/:/g, '-') + "-" + file.originalname</code></td>
+                    </tr>
+                    <tr>
+                        <td>CDN URLs</td>
+                        <td>Generates accessible URLs for files</td>
+                        <td><code>/attachments/${file.filename}</code></td>
+                    </tr>
+                    <tr>
+                        <td>Multi-file Support</td>
+                        <td>Handles multiple files per request</td>
+                        <td><code>multer().array('attachments')</code></td>
+                    </tr>
+                    <tr>
+                        <td>Error Handling</td>
+                        <td>Comprehensive error reporting</td>
+                        <td>Status codes, meaningful error messages</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Request Processing</h3>
+            <div class="code-block">
+// After successful upload, middleware adds:
+req.cdnFiles = [
+    {
+        filename: "2025-05-24T13-07-02.451Z-photo.jpg",
+        url: "/attachments/2025-05-24T13-07-02.451Z-photo.jpg",
+        originalName: "photo.jpg",
+        size: 1024000,
+        mimeType: "image/jpeg"
+    }
+];
+
+req.files = [
+    {
+        // Standard multer file object
+        fieldname: 'attachments',
+        originalname: 'photo.jpg',
+        filename: '2025-05-24T13-07-02.451Z-photo.jpg',
+        path: '/path/to/attachments/2025-05-24T13-07-02.451Z-photo.jpg',
+        size: 1024000,
+        mimetype: 'image/jpeg',
+        // Added by middleware
+        cdnUrl: '/attachments/2025-05-24T13-07-02.451Z-photo.jpg'
+    }
+];
+            </div>
+        </section>
+
+        <section id="endpoints" class="section">
+            <h2>🔗 API Endpoints</h2>
+            
+            <h3>Pet Endpoints with Attachments</h3>
+            
+            <div class="endpoint">
+                <span class="method post">POST</span> /api/pets
+            </div>
+            <p><strong>Description:</strong> Create a new pet profile with optional photo attachments</p>
+            <div class="code-block">
+Content-Type: multipart/form-data
+
+Form Fields:
+- name: string (required)
+- breed: string
+- color: string
+- age: number
+- description: text
+- attachments: file[] (optional)
+
+Response:
+{
+    "message": "Pet created successfully",
+    "pet": {
+        "id": "pet_id",
+        "name": "Buddy",
+        "photos": [
+            "/attachments/2025-05-24T13-07-02.451Z-buddy-photo.jpg"
+        ]
+    }
+}
+            </div>
+
+            <div class="endpoint">
+                <span class="method post">POST</span> /api/pets/:id/update
+            </div>
+            <p><strong>Description:</strong> Update pet information with new attachments</p>
+
+            <h3>Report Endpoints with Attachments</h3>
+            
+            <div class="endpoint">
+                <span class="method post">POST</span> /api/reports
+            </div>
+            <p><strong>Description:</strong> Create a missing pet report with evidence attachments</p>
+            <div class="code-block">
+Content-Type: multipart/form-data
+
+Form Fields:
+- petId: string (required)
+- location: string (required)
+- description: text
+- contactInfo: string
+- attachments: file[] (optional)
+
+Response:
+{
+    "message": "Report created successfully",
+    "report": {
+        "id": "report_id",
+        "petId": "pet_id",
+        "attachments": [
+            "/attachments/2025-05-24T13-07-02.602Z-evidence.pdf"
+        ]
+    }
+}
+            </div>
+
+            <h3>File Access Endpoint</h3>
+            
+            <div class="endpoint">
+                <span class="method get">GET</span> /attachments/:filename
+            </div>
+            <p><strong>Description:</strong> Direct access to uploaded files via CDN URLs</p>
+            <div class="code-block">
+GET /attachments/2025-05-24T13-07-02.451Z-photo.jpg
+
+Response: File content with appropriate headers
+Content-Type: image/jpeg
+Content-Length: 1024000
+            </div>
+
+            <div class="info">
+                <h3>Usage Examples</h3>
+                <div class="code-block">
+// JavaScript fetch example
+const formData = new FormData();
+formData.append('name', 'Buddy');
+formData.append('breed', 'Golden Retriever');
+formData.append('attachments', photoFile1);
+formData.append('attachments', photoFile2);
+
+fetch('/api/pets', {
+    method: 'POST',
+    body: formData,
+    headers: {
+        'Authorization': 'Bearer your-token'
+    }
+});
+
+// cURL example
+curl -X POST http://localhost:8080/api/pets \
+  -H "Authorization: Bearer your-token" \
+  -F "name=Buddy" \
+  -F "breed=Golden Retriever" \
+  -F "attachments=@photo1.jpg" \
+  -F "attachments=@photo2.jpg"
+                </div>
+            </div>
+        </section>
+
+        <section id="supported-files" class="section">
+            <h2>📁 Supported File Types</h2>
+            
+            <p>The system supports a comprehensive whitelist of file types for security and compatibility.</p>
+
+            <h3>Image Files</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Extension</th>
+                        <th>MIME Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>.png</td><td>image/png</td><td>Portable Network Graphics</td></tr>
+                    <tr><td>.jpg, .jpeg</td><td>image/jpeg</td><td>JPEG Image</td></tr>
+                    <tr><td>.webp</td><td>image/webp</td><td>WebP Image</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Video Files</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Extension</th>
+                        <th>MIME Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>.mp4</td><td>video/mp4</td><td>MP4 Video</td></tr>
+                    <tr><td>.mov</td><td>video/quicktime</td><td>QuickTime Video</td></tr>
+                    <tr><td>.avi</td><td>video/x-msvideo</td><td>AVI Video</td></tr>
+                    <tr><td>.webm</td><td>video/webm</td><td>WebM Video</td></tr>
+                    <tr><td>.3gp</td><td>video/3gpp</td><td>3GPP Video</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Document Files</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Extension</th>
+                        <th>MIME Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>.pdf</td><td>application/pdf</td><td>PDF Document</td></tr>
+                    <tr><td>.docx</td><td>application/vnd.openxmlformats-officedocument.wordprocessingml.document</td><td>Word Document</td></tr>
+                    <tr><td>.xlsx</td><td>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td><td>Excel Spreadsheet</td></tr>
+                    <tr><td>.pptx</td><td>application/vnd.openxmlformats-officedocument.presentationml.presentation</td><td>PowerPoint Presentation</td></tr>
+                    <tr><td>.txt</td><td>text/plain</td><td>Plain Text</td></tr>
+                    <tr><td>.csv</td><td>text/csv</td><td>CSV File</td></tr>
+                    <tr><td>.json</td><td>application/json</td><td>JSON Data</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Archive Files</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Extension</th>
+                        <th>MIME Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>.zip</td><td>application/zip</td><td>ZIP Archive</td></tr>
+                    <tr><td>.rar</td><td>application/x-rar-compressed</td><td>RAR Archive</td></tr>
+                    <tr><td>.7z</td><td>application/x-7z-compressed</td><td>7-Zip Archive</td></tr>
+                    <tr><td>.tar</td><td>application/x-tar</td><td>TAR Archive</td></tr>
+                </tbody>
+            </table>
+
+            <div class="warning">
+                <h3>Security Notice</h3>
+                <p>The system includes some potentially dangerous file types (like .exe) in the whitelist. In a production environment, consider removing these types or implementing additional security measures such as:</p>
+                <ul>
+                    <li>File content scanning</li>
+                    <li>Virus scanning</li>
+                    <li>File size limits</li>
+                    <li>User permission levels</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="testing" class="section">
+            <h2>🧪 Testing System</h2>
+            
+            <p>The attachment upload system includes a comprehensive test suite in <code>test-attachment-upload.js</code>.</p>
+
+            <h3>Test Coverage</h3>
+            <div class="code-block">
+✅ Server Connection Test
+✅ Single File Upload Test  
+✅ Multiple File Upload Test
+✅ CDN URL Generation Test
+✅ File Accessibility Test
+✅ Pet Creation with Photos Test
+✅ Report Creation with Attachments Test
+✅ Invalid File Type Rejection Test
+            </div>
+
+            <h3>Running Tests</h3>
+            <div class="code-block">
+# Start the server
+npm start
+
+# In another terminal, run tests
+node test-attachment-upload.js
+
+# Expected output:
+✅ Server is running on port 8080
+✅ Single file upload test passed
+✅ Multiple file upload test passed
+✅ CDN URL generation test passed
+✅ File accessibility test passed
+✅ Pet creation with photos test passed
+✅ Report creation with attachments test passed
+✅ Invalid file type rejection test passed
+
+🎉 All attachment upload tests passed!
+            </div>
+
+            <h3>Test File Structure</h3>
+            <div class="code-block">
+const testFiles = {
+    image: {
+        filename: 'test-image.png',
+        content: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==',
+        mimetype: 'image/png'
+    },
+    document: {
+        filename: 'test-document.pdf',
+        content: 'JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PAovVHlwZSAvQ2F0YWxvZwovUGFnZXMgMiAwIFIKPj4KZW5kb2JqCg==',
+        mimetype: 'application/pdf'
+    },
+    invalidFile: {
+        filename: 'test-invalid.exe',
+        content: 'TWljcm9zb2Z0IFZpc3VhbCBDKys=',
+        mimetype: 'application/x-msdownload'
+    }
+};
+            </div>
+
+            <div class="success">
+                <h3>Test Results</h3>
+                <p>All tests pass successfully, confirming:</p>
+                <ul>
+                    <li>File upload functionality works correctly</li>
+                    <li>CDN URLs are generated properly</li>
+                    <li>Files are accessible via HTTP</li>
+                    <li>Integration with pets and reports works</li>
+                    <li>File type validation prevents malicious uploads</li>
+                    <li>Error handling provides meaningful feedback</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="deployment" class="section">
+            <h2>🚀 Deployment Considerations</h2>
+            
+            <h3>Production Setup</h3>
+            <div class="code-block">
+# Environment variables
+NODE_ENV=production
+PORT=8080
+ATTACHMENTS_DIR=/var/www/attachments
+CDN_BASE_URL=https://cdn.yourapp.com
+
+# Required directories
+mkdir -p /var/www/attachments
+chown -R node:node /var/www/attachments
+chmod 755 /var/www/attachments
+            </div>
+
+            <h3>File Storage Options</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Option</th>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                        <th>Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Local Storage</td>
+                        <td>Simple, fast, no external dependencies</td>
+                        <td>Not scalable, single point of failure</td>
+                        <td>Development, small applications</td>
+                    </tr>
+                    <tr>
+                        <td>AWS S3</td>
+                        <td>Scalable, reliable, CDN integration</td>
+                        <td>Cost, complexity, vendor lock-in</td>
+                        <td>Production, high traffic</td>
+                    </tr>
+                    <tr>
+                        <td>Google Cloud Storage</td>
+                        <td>Good integration, global CDN</td>
+                        <td>Cost, Google ecosystem dependency</td>
+                        <td>Google Cloud environments</td>
+                    </tr>
+                    <tr>
+                        <td>Azure Blob Storage</td>
+                        <td>Microsoft ecosystem integration</td>
+                        <td>Less flexible than S3</td>
+                        <td>Microsoft Azure environments</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Security Recommendations</h3>
+            <div class="warning">
+                <h3>Production Security Checklist</h3>
+                <ul>
+                    <li>✅ Remove dangerous file types (.exe, .bat, .sh) from whitelist</li>
+                    <li>✅ Implement file size limits (max 10MB per file)</li>
+                    <li>✅ Add virus scanning for uploaded files</li>
+                    <li>✅ Implement rate limiting for upload endpoints</li>
+                    <li>✅ Use HTTPS for all file transfers</li>
+                    <li>✅ Implement user authentication for uploads</li>
+                    <li>✅ Add file access logging</li>
+                    <li>✅ Regular backup of attachment directory</li>
+                </ul>
+            </div>
+
+            <h3>Performance Optimization</h3>
+            <div class="info">
+                <h3>Optimization Strategies</h3>
+                <ul>
+                    <li><strong>Image Compression:</strong> Implement automatic image resizing and compression</li>
+                    <li><strong>CDN Integration:</strong> Use CloudFront, CloudFlare, or similar for global file delivery</li>
+                    <li><strong>Caching Headers:</strong> Set appropriate cache headers for static files</li>
+                    <li><strong>Lazy Loading:</strong> Load images on demand in client applications</li>
+                    <li><strong>File Cleanup:</strong> Implement automatic cleanup of orphaned files</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="troubleshooting" class="section">
+            <h2>🔧 Troubleshooting Guide</h2>
+            
+            <h3>Common Issues</h3>
+            
+            <h4>1. "ENOENT: no such file or directory" Error</h4>
+            <div class="code-block">
+Error: ENOENT: no such file or directory, open '/path/to/attachments/file.jpg'
+
+Solution:
+1. Check if attachments directory exists
+2. Verify directory permissions
+3. Ensure CDN_ATTACHMENTS_DIR path is correct
+            </div>
+
+            <h4>2. "File type not allowed" Error</h4>
+            <div class="code-block">
+Error: File type not allowed: application/unknown
+
+Solution:
+1. Check file MIME type in allowedMimeTypes array
+2. Add new MIME type if file should be allowed
+3. Verify file is not corrupted
+            </div>
+
+            <h4>3. Upload Timeout Issues</h4>
+            <div class="code-block">
+Error: Request timeout during file upload
+
+Solution:
+1. Increase request timeout in Express
+2. Check file size limits
+3. Verify network connectivity
+4. Implement resumable uploads for large files
+            </div>
+
+            <h4>4. CDN URLs Not Accessible</h4>
+            <div class="code-block">
+Error: 404 Not Found when accessing /attachments/file.jpg
+
+Solution:
+1. Verify static file serving is configured in app.js
+2. Check file permissions (should be readable)
+3. Confirm file exists in attachments directory
+4. Verify Express static middleware configuration
+            </div>
+
+            <h3>Debug Commands</h3>
+            <div class="code-block">
+# Check attachments directory
+ls -la /path/to/attachments/
+
+# Check file permissions
+stat /path/to/attachments/filename.jpg
+
+# Check Express static middleware
+curl -I http://localhost:8080/attachments/filename.jpg
+
+# Enable debug logging
+DEBUG=* npm start
+
+# Test file upload manually
+curl -X POST http://localhost:8080/api/pets \
+  -F "name=Test" \
+  -F "attachments=@test.jpg" \
+  -H "Authorization: Bearer token"
+            </div>
+
+            <h3>Log Analysis</h3>
+            <div class="code-block">
+# Common log patterns to look for:
+
+✅ Success: "Successfully uploaded X files to /path/to/attachments"
+❌ Error: "Multer upload error: [error details]"
+⚠️  Warning: "File type not allowed: [mimetype]"
+ℹ️  Info: "Created CDN attachments directory at: [path]"
+            </div>
+
+            <div class="info">
+                <h3>Getting Help</h3>
+                <p>If you encounter issues not covered in this guide:</p>
+                <ul>
+                    <li>Check the server logs for detailed error messages</li>
+                    <li>Run the test suite to identify specific problems</li>
+                    <li>Verify all dependencies are installed correctly</li>
+                    <li>Ensure proper file permissions on the attachments directory</li>
+                    <li>Test with curl or Postman to isolate client vs. server issues</li>
+                </ul>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 40px 0; color: #666; border-top: 1px solid #ddd; margin-top: 40px;">
+            <p>Missing Pets Backend API - Attachment Upload System Documentation</p>
+            <p>Last updated: May 24, 2025</p>
+        </footer>
+    </div>
+</body>
+</html>

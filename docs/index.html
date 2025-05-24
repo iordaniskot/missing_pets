@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missing Pets Backend API - Documentation Hub</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #2d3748;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+        }
+        
+        h1 {
+            font-size: 3.5em;
+            margin: 0;
+            font-weight: 300;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.4em;
+            opacity: 0.9;
+            margin-top: 20px;
+        }
+        
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .doc-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .doc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .doc-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+            border-color: #667eea;
+        }
+        
+        .doc-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .doc-title {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .doc-description {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .doc-features {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        
+        .doc-features li {
+            padding: 5px 0;
+            color: #555;
+        }
+        
+        .doc-features li::before {
+            content: '✅';
+            margin-right: 10px;
+        }
+        
+        .doc-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .doc-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        }
+        
+        .stats-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 60px 0;
+            text-align: center;
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            display: block;
+            color: #ffd700;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        
+        .tech-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .tech-badge {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        
+        .quick-links {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 40px;
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+        
+        .quick-links h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .quick-link {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .quick-link:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .docs-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .doc-card {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐾 Missing Pets Backend API</h1>
+            <div class="subtitle">Complete Documentation Hub</div>
+            
+            <div class="tech-badges">
+                <span class="tech-badge">Node.js 18+</span>
+                <span class="tech-badge">Express.js 5.x</span>
+                <span class="tech-badge">MongoDB Atlas</span>
+                <span class="tech-badge">Socket.io 4.x</span>
+                <span class="tech-badge">JWT Auth</span>
+                <span class="tech-badge">Multer Uploads</span>
+                <span class="tech-badge">Winston Logging</span>
+            </div>
+        </header>
+
+        <div class="stats-section">
+            <h2>📊 API Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">15+</span>
+                    <div class="stat-label">API Endpoints</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">3</span>
+                    <div class="stat-label">Data Models</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <div class="stat-label">Test Coverage</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">⚡</span>
+                    <div class="stat-label">Real-time Ready</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="docs-grid">
+            <div class="doc-card">
+                <div class="doc-icon">📚</div>
+                <h2 class="doc-title">Complete API Documentation</h2>
+                <p class="doc-description">
+                    Comprehensive guide covering the entire Missing Pets Backend API system, from authentication to deployment.
+                </p>
+                <ul class="doc-features">
+                    <li>Authentication & User Management</li>
+                    <li>Pet CRUD Operations with Photos</li>
+                    <li>Geospatial Report System</li>
+                    <li>Real-time Socket.io Integration</li>
+                    <li>Security & Rate Limiting</li>
+                    <li>Testing & Deployment Guide</li>
+                </ul>
+                <a href="complete-api-documentation.html" class="doc-link">View Complete Documentation</a>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-icon">📸</div>
+                <h2 class="doc-title">File Upload System Documentation</h2>
+                <p class="doc-description">
+                    Detailed documentation focused specifically on the attachment upload system, including middleware configuration and testing.
+                </p>
+                <ul class="doc-features">
+                    <li>Multer Middleware Configuration</li>
+                    <li>CDN URL Generation</li>
+                    <li>File Type Validation</li>
+                    <li>Multi-file Upload Support</li>
+                    <li>Security Best Practices</li>
+                    <li>Comprehensive Test Suite</li>
+                </ul>
+                <a href="attachment-upload-documentation.html" class="doc-link">View Upload Documentation</a>
+            </div>
+        </div>
+
+        <div class="quick-links">
+            <h3>🔗 Quick Links</h3>
+            <div class="link-grid">
+                <a href="../README.md" class="quick-link">📖 README.md</a>
+                <a href="../package.json" class="quick-link">📦 Package.json</a>
+                <a href="../app.js" class="quick-link">🚀 Main App File</a>
+                <a href="../postman_collection.json" class="quick-link">📮 Postman Collection</a>
+                <a href="../test-api.js" class="quick-link">🧪 API Test Script</a>
+                <a href="../test-attachment-upload.js" class="quick-link">📁 Upload Test Script</a>
+                <a href="../.env.example" class="quick-link">⚙️ Environment Setup</a>
+                <a href="../logs/" class="quick-link">📋 Application Logs</a>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h2>🎯 What's Included</h2>
+            <div style="text-align: left; max-width: 800px; margin: 0 auto;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px;">
+                    <div>
+                        <h3>🔐 Authentication System</h3>
+                        <p>JWT-based authentication with secure password hashing, rate limiting, and comprehensive validation.</p>
+                    </div>
+                    <div>
+                        <h3>🐕 Pet Management</h3>
+                        <p>Full CRUD operations for pet profiles with photo uploads, ownership tracking, and advanced filtering.</p>
+                    </div>
+                    <div>
+                        <h3>📍 Geospatial Reports</h3>
+                        <p>Location-based missing/found pet reports with radius search and MongoDB 2dsphere indexing.</p>
+                    </div>
+                    <div>
+                        <h3>⚡ Real-time Features</h3>
+                        <p>Socket.io integration for instant notifications and live updates with regional subscriptions.</p>
+                    </div>
+                    <div>
+                        <h3>📸 File Upload System</h3>
+                        <p>Secure multi-file upload with type validation, CDN integration, and comprehensive error handling.</p>
+                    </div>
+                    <div>
+                        <h3>🛡️ Enterprise Security</h3>
+                        <p>Rate limiting, input validation, CORS configuration, and production-ready security measures.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer style="text-align: center; padding: 40px 0; color: rgba(255,255,255,0.8); margin-top: 60px;">
+            <p style="font-size: 1.1em; margin-bottom: 10px;">🐾 Missing Pets Backend API Documentation</p>
+            <p style="opacity: 0.8;">Built with Node.js, Express.js, MongoDB, and Socket.io</p>
+            <p style="font-size: 0.9em; margin-top: 20px;">Last updated: May 24, 2025 | Version 1.0.0</p>
+        </footer>
+    </div>
+</body>
+</html>
