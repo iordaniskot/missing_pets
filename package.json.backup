@@ -33,14 +33,11 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
-    "mongodb-memory-server": "^10.1.4",
     "supertest": "^7.0.0"
   },
   "jest": {
     "testEnvironment": "node",
-    "setupFilesAfterEnv": [
-      "<rootDir>/tests/setup.js"
-    ],
+    "setupFilesAfterEnv": ["<rootDir>/tests/setup.js"],
     "testTimeout": 30000,
     "collectCoverageFrom": [
       "controllers/**/*.js",
@@ -49,10 +46,23 @@
       "utils/**/*.js"
     ],
     "coverageDirectory": "coverage",
-    "coverageReporters": [
-      "text",
-      "lcov",
-      "html"
-    ]
+    "coverageReporters": ["text", "lcov", "html"]
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": ["<rootDir>/tests/setup.js"],
+    "testTimeout": 30000,
+    "collectCoverageFrom": [
+      "controllers/**/*.js",
+      "models/**/*.js",
+      "middleware/**/*.js",
+      "utils/**/*.js"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"]
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.1.1"
   }
 }
