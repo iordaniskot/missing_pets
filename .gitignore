@@ -18,5 +18,5 @@ dist/
 
 # Dependencies
 node_modules/
-prd.md
+/prd.md
 nodemon.json
