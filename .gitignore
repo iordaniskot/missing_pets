@@ -19,4 +19,4 @@ dist/
 # Dependencies
 node_modules/
 /prd.md
-nodemon.json
+nodemon.json 
