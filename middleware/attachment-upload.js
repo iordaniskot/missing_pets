@@ -3,10 +3,10 @@ const fs = require("fs");
 const path = require("path");
 
 // Define the path to the CDN attachments folder
-const CDN_ATTACHMENTS_DIR = path.join(__dirname, '../../../rh-cdn/attachments');
-const CDN_BASE_URL = process.env.CDN_BASE_URL || 'https://rh-helpdesk-server-new.rhodesislandpass.com';
+const CDN_ATTACHMENTS_DIR = path.join(__dirname, '../attachments');
 
-module.exports = async (req, res, next) => {
+
+module.exports = (req, res, next) => {
   // Ensure the CDN attachments directory exists
   if (!fs.existsSync(CDN_ATTACHMENTS_DIR)) {
     fs.mkdirSync(CDN_ATTACHMENTS_DIR, { recursive: true });
@@ -88,7 +88,9 @@ module.exports = async (req, res, next) => {
     if (allowedMimeTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(null, false);
+      const error = new Error(`File type not allowed: ${file.mimetype}`);
+      error.statusCode = 400;
+      cb(error, false);
     }
   };
 
