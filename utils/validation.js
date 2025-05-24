@@ -52,7 +52,24 @@ exports.createPetValidation = [
     .optional()
     .trim()
     .isLength({ min: 1 })
-    .withMessage('Breed cannot be empty')
+    .withMessage('Breed cannot be empty'),
+  body('height')
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage('Height must be a positive number'),
+  body('weight')
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage('Weight must be a positive number'),
+  body('color')
+    .optional()
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage('Color cannot be empty'),
+  body('isOwnedByCreator')
+    .optional()
+    .isBoolean()
+    .withMessage('isOwnedByCreator must be a boolean')
 ];
 
 exports.updatePetValidation = [
@@ -65,7 +82,24 @@ exports.updatePetValidation = [
     .optional()
     .trim()
     .isLength({ min: 1 })
-    .withMessage('Breed cannot be empty')
+    .withMessage('Breed cannot be empty'),
+  body('height')
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage('Height must be a positive number'),
+  body('weight')
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage('Weight must be a positive number'),
+  body('color')
+    .optional()
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage('Color cannot be empty'),
+  body('isOwnedByCreator')
+    .optional()
+    .isBoolean()
+    .withMessage('isOwnedByCreator must be a boolean')
 ];
 
 // Report validation

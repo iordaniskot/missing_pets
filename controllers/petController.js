@@ -5,25 +5,33 @@ const logger = require('../utils/logger');
 
 exports.createPet = async (req, res, next) => {
   try {
-    const { name, breed } = req.body;
+    const { name, breed, height, weight, color, isOwnedByCreator = false } = req.body;
     
     // Get photo URLs from uploaded files
     const photos = req.files ? req.files.map(file => file.cdnUrl) : [];
 
     const pet = new Pet({
-      owner: req.userId,
+      createdBy: req.userId,
       name,
       breed,
-      photos
+      height,
+      weight,
+      color,
+      photos,
+      isOwnedByCreator
     });
 
     const savedPet = await pet.save();
-    await savedPet.populate('owner', 'name email');
+    await savedPet.populate([
+      { path: 'owner', select: 'name email' },
+      { path: 'createdBy', select: 'name email' }
+    ]);
 
-    logger.info(`New pet created: ${savedPet._id} by user ${req.userId}`);
+    const action = isOwnedByCreator ? 'owned pet created' : 'found pet reported';
+    logger.info(`${action}: ${savedPet._id} by user ${req.userId}`);
 
     res.status(201).json({
-      message: 'Pet created successfully',
+      message: `Pet ${isOwnedByCreator ? 'created' : 'reported'} successfully`,
       pet: savedPet
     });
   } catch (error) {
@@ -35,9 +43,12 @@ exports.getAllPets = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;
-    const { name, breed } = req.query;
+    const { name, breed, color, hasOwner } = req.query;
 
-    let query = Pet.find().populate('owner', 'name email');
+    let query = Pet.find().populate([
+      { path: 'owner', select: 'name email' },
+      { path: 'createdBy', select: 'name email' }
+    ]);
     
     // Name filter
     if (name) {
@@ -47,6 +58,20 @@ exports.getAllPets = async (req, res, next) => {
     // Breed filter
     if (breed) {
       query = query.where('breed').regex(new RegExp(breed, 'i'));
+    }
+    
+    // Color filter
+    if (color) {
+      query = query.where('color').regex(new RegExp(color, 'i'));
+    }
+    
+    // Filter by ownership status
+    if (hasOwner !== undefined) {
+      if (hasOwner === 'true') {
+        query = query.where('owner').ne(null);
+      } else if (hasOwner === 'false') {
+        query = query.where('owner').equals(null);
+      }
     }
 
     const total = await Pet.countDocuments(query.getFilter());
@@ -62,7 +87,10 @@ exports.getAllPets = async (req, res, next) => {
 
 exports.getPetById = async (req, res, next) => {
   try {
-    const pet = await Pet.findById(req.params.id).populate('owner', 'name email');
+    const pet = await Pet.findById(req.params.id).populate([
+      { path: 'owner', select: 'name email' },
+      { path: 'createdBy', select: 'name email' }
+    ]);
       
     if (!pet) {
       const error = new Error('Pet not found');
@@ -81,7 +109,7 @@ exports.getPetById = async (req, res, next) => {
 
 exports.updatePet = async (req, res, next) => {
   try {
-    const { name, breed } = req.body;
+    const { name, breed, height, weight, color, isOwnedByCreator } = req.body;
     
     const pet = await Pet.findById(req.params.id);
     if (!pet) {
@@ -90,8 +118,11 @@ exports.updatePet = async (req, res, next) => {
       throw error;
     }
 
-    // Check if user owns the pet
-    if (pet.owner && pet.owner.toString() !== req.userId) {
+    // Check if user has permission to update (owner or creator)
+    const canUpdate = pet.createdBy.toString() === req.userId || 
+                     (pet.owner && pet.owner.toString() === req.userId);
+    
+    if (!canUpdate) {
       const error = new Error('Not authorized to update this pet');
       error.statusCode = 403;
       throw error;
@@ -99,6 +130,14 @@ exports.updatePet = async (req, res, next) => {
 
     if (name !== undefined) pet.name = name;
     if (breed !== undefined) pet.breed = breed;
+    if (height !== undefined) pet.height = height;
+    if (weight !== undefined) pet.weight = weight;
+    if (color !== undefined) pet.color = color;
+    
+    // Handle ownership claim/unclaim
+    if (isOwnedByCreator !== undefined && pet.createdBy.toString() === req.userId) {
+      pet.isOwnedByCreator = isOwnedByCreator;
+    }
     
     // Handle new photos
     if (req.files && req.files.length > 0) {
@@ -107,7 +146,10 @@ exports.updatePet = async (req, res, next) => {
     }
 
     const updatedPet = await pet.save();
-    await updatedPet.populate('owner', 'name email');
+    await updatedPet.populate([
+      { path: 'owner', select: 'name email' },
+      { path: 'createdBy', select: 'name email' }
+    ]);
 
     logger.info(`Pet updated: ${pet._id} by user ${req.userId}`);
 
@@ -129,8 +171,11 @@ exports.deletePet = async (req, res, next) => {
       throw error;
     }
 
-    // Check if user owns the pet
-    if (pet.owner && pet.owner.toString() !== req.userId) {
+    // Check if user has permission to delete (owner or creator)
+    const canDelete = pet.createdBy.toString() === req.userId || 
+                     (pet.owner && pet.owner.toString() === req.userId);
+    
+    if (!canDelete) {
       const error = new Error('Not authorized to delete this pet');
       error.statusCode = 403;
       throw error;

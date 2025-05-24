@@ -7,7 +7,7 @@
 
 const axios = require('axios');
 
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = 'http://localhost:3000';
 const API = axios.create({
   baseURL: BASE_URL,
   timeout: 5000
@@ -23,7 +23,10 @@ const testUser = {
 
 const testPet = {
   name: 'Buddy',
-  breed: 'Golden Retriever'
+  breed: 'Golden Retriever',
+  height: 60,
+  weight: 30,
+  color: 'golden'
 };
 
 const testReport = {
@@ -51,12 +54,8 @@ async function runTests() {
     // Test 2: User Signup
     console.log('\n2️⃣ Testing User Signup...');
     const signupResponse = await API.post('/auth/signup', testUser);
-    authToken = signupResponse.data.token;
     console.log('✅ User Signup successful');
     console.log('   User ID:', signupResponse.data.user._id);
-
-    // Set auth header for subsequent requests
-    API.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
 
     // Test 3: User Login
     console.log('\n3️⃣ Testing User Login...');
@@ -64,6 +63,8 @@ async function runTests() {
       email: testUser.email,
       password: testUser.password
     });
+    authToken = loginResponse.data.token;
+    API.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
     console.log('✅ User Login successful');
 
     // Test 4: Get Profile
@@ -77,32 +78,52 @@ async function runTests() {
     createdPetId = petResponse.data.pet._id;
     console.log('✅ Pet created:', petResponse.data.pet.name);
     console.log('   Pet ID:', createdPetId);
+    console.log('   Height:', petResponse.data.pet.height, 'cm');
+    console.log('   Weight:', petResponse.data.pet.weight, 'kg');
+    console.log('   Color:', petResponse.data.pet.color);
 
     // Test 6: Get Pets
     console.log('\n6️⃣ Testing Get Pets...');
     const petsResponse = await API.get('/pets');
     console.log('✅ Pets retrieved:', petsResponse.data.data.length, 'pets found');
 
-    // Test 7: Create Report
-    console.log('\n7️⃣ Testing Create Report...');
+    // Test 7: Update Pet with Physical Characteristics
+    console.log('\n7️⃣ Testing Update Pet...');
+    const petUpdateResponse = await API.patch(`/pets/${createdPetId}`, {
+      height: 65,
+      weight: 32,
+      color: 'light golden'
+    });
+    console.log('✅ Pet updated with new characteristics');
+    console.log('   Height:', petUpdateResponse.data.pet.height, 'cm');
+    console.log('   Weight:', petUpdateResponse.data.pet.weight, 'kg');
+    console.log('   Color:', petUpdateResponse.data.pet.color);
+
+    // Test 8: Filter Pets by Color
+    console.log('\n8️⃣ Testing Pet Color Filter...');
+    const colorFilterResponse = await API.get('/pets?color=golden');
+    console.log('✅ Color filter test:', colorFilterResponse.data.data.length, 'golden pets found');
+
+    // Test 9: Create Report
+    console.log('\n9️⃣ Testing Create Report...');
     testReport.pet = createdPetId;
     const reportResponse = await API.post('/reports', testReport);
     createdReportId = reportResponse.data.report._id;
     console.log('✅ Report created:', reportResponse.data.report.status);
     console.log('   Report ID:', createdReportId);
 
-    // Test 8: Get Reports
-    console.log('\n8️⃣ Testing Get Reports...');
+    // Test 10: Get Reports
+    console.log('\n🔟 Testing Get Reports...');
     const reportsResponse = await API.get('/reports');
     console.log('✅ Reports retrieved:', reportsResponse.data.data.length, 'reports found');
 
-    // Test 9: Geospatial Search
-    console.log('\n9️⃣ Testing Geospatial Search...');
+    // Test 11: Geospatial Search
+    console.log('\n1️⃣1️⃣ Testing Geospatial Search...');
     const geoResponse = await API.get('/reports?lat=40.785091&lng=-73.968285&radius=1000');
     console.log('✅ Geospatial search:', geoResponse.data.data.length, 'reports found within 1km');
 
-    // Test 10: Update Report
-    console.log('\n🔟 Testing Update Report...');
+    // Test 12: Update Report
+    console.log('\n1️⃣2️⃣ Testing Update Report...');
     const updateResponse = await API.patch(`/reports/${createdReportId}`, {
       description: 'Updated: Still missing near Central Park'
     });
