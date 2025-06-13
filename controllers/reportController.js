@@ -67,8 +67,8 @@ exports.getAllReports = async (req, res, next) => {
 
     let query = Report.find()
       .populate([
-        { path: 'pet', populate: { path: 'owner', select: 'name email' } },
-        { path: 'reporter', select: 'name email' }
+        { path: 'pet', populate: { path: 'owner', select: 'name email phone' } },
+        { path: 'reporter', select: 'name email phone' }
       ]);
     
     // Status filter
