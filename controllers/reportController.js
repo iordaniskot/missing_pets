@@ -222,3 +222,44 @@ exports.deleteReport = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.markAsFound = async (req, res, next) => {
+  try {
+    const report = await Report.findById(req.params.id);
+    if (!report) {
+      const error = new Error('Report not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    // Only allow marking lost pets as found
+    if (report.status !== 'lost') {
+      const error = new Error('Only lost pets can be marked as found');
+      error.statusCode = 400;
+      throw error;
+    }
+
+    // Update status to found
+    report.status = 'found';
+    const updatedReport = await report.save();
+    
+    await updatedReport.populate([
+      { path: 'pet', populate: { path: 'owner', select: 'name email phone' } },
+      { path: 'reporter', select: 'name email phone' }
+    ]);
+
+    logger.info(`Report marked as found: ${report._id} by user ${req.userId}`);
+
+    // Emit real-time event
+    if (io) {
+      io.of('/reports').emit('updateReport', updatedReport);
+    }
+
+    res.status(200).json({
+      message: 'Pet marked as found successfully',
+      report: updatedReport
+    });
+  } catch (error) {
+    next(error);
+  }
+};

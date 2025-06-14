@@ -52,4 +52,11 @@ router.delete('/:id',
   reportController.deleteReport
 );
 
+// PATCH /reports/:id/found - Mark report as found
+router.patch('/:id/found',
+  mongoIdValidation,
+  handleValidationErrors,
+  reportController.markAsFound
+);
+
 module.exports = router;
