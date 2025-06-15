@@ -3,1556 +3,364 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Missing Pets Backend API - Complete Documentation</title>
+    <title>Complete API Documentation - Missing Pets</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.2.12/marked.min.js"></script>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f8fafc;
-            color: #2d3748;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-            margin-bottom: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        h1 {
-            margin: 0;
-            font-size: 3em;
-            font-weight: 300;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .subtitle {
-            font-size: 1.3em;
-            opacity: 0.9;
-            margin-top: 15px;
-        }
-        
-        .version-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            margin-top: 20px;
-            font-size: 0.9em;
-        }
-        
-        .nav {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            margin-bottom: 40px;
-            position: sticky;
-            top: 20px;
-            z-index: 100;
-        }
-        
-        .nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        
-        .nav a {
-            color: #667eea;
-            text-decoration: none;
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; color: #333; }
+        h1, h2, h3, h4 { color: #2c3e50; }
+        h1 { border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; }
+        pre code { display: block; padding: 10px; background-color: #2d2d2d; color: #f8f8f2; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; }
+        .container { max-width: 900px; margin: auto; }
+        nav { background-color: #f8f8f8; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
+        nav ul { list-style-type: none; padding: 0; }
+        nav ul li { display: inline; margin-right: 15px; }
+        nav ul li a { text-decoration: none; color: #007bff; }
+        nav ul li a:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .endpoint { margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9; }
+        .endpoint h3 { margin-top: 0; color: #3498db; }
+        .method { font-weight: bold; padding: 3px 8px; border-radius: 3px; color: white; margin-right: 10px; }
+        .post { background-color: #4CAF50; }
+        .get { background-color: #2196F3; }
+        .patch { background-color: #ff9800; }
+        .delete { background-color: #f44336; }
+        .request-body, .response, .query-params, .ws-event { margin-top: 10px; }
+        .request-body strong, .response strong, .query-params strong, .ws-event strong { display: block; margin-bottom: 5px; }
+         /* Styles for Markdown content */
+        #markdown-content h1, #markdown-content h2, #markdown-content h3, #markdown-content h4, #markdown-content h5, #markdown-content h6 {
+            margin-top: 24px;
+            margin-bottom: 16px;
             font-weight: 600;
-            padding: 12px 20px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            display: block;
-            text-align: center;
-            border: 2px solid transparent;
+            line-height: 1.25;
         }
-        
-        .nav a:hover {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
-        
-        .section {
-            background: white;
-            padding: 40px;
-            margin-bottom: 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            border-left: 5px solid #667eea;
-        }
-        
-        h2 {
-            color: #667eea;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 15px;
-            margin-top: 0;
-            font-size: 2.2em;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        h3 {
-            color: #4a5568;
-            margin-top: 35px;
-            font-size: 1.4em;
-            border-left: 4px solid #e2e8f0;
-            padding-left: 15px;
-        }
-        
-        h4 {
-            color: #718096;
-            margin-top: 25px;
-            font-size: 1.1em;
-        }
-        
-        .code-block {
-            background: #f7fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-            overflow-x: auto;
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 14px;
-            line-height: 1.5;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
-        }
-        
-        .highlight {
-            background: linear-gradient(135deg, #fef5e7, #fed7aa);
-            border-left: 4px solid #f59e0b;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
-        
-        .warning {
-            background: linear-gradient(135deg, #fef2f2, #fecaca);
-            border-left: 4px solid #ef4444;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
-        
-        .success {
-            background: linear-gradient(135deg, #f0fdf4, #bbf7d0);
-            border-left: 4px solid #22c55e;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
-        
-        .info {
-            background: linear-gradient(135deg, #eff6ff, #bfdbfe);
-            border-left: 4px solid #3b82f6;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        th, td {
-            border: 1px solid #e2e8f0;
-            padding: 15px;
-            text-align: left;
-        }
-        
-        th {
-            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-            font-weight: 700;
-            color: #2d3748;
-        }
-        
-        tr:nth-child(even) {
-            background-color: #f8fafc;
-        }
-        
-        .endpoint {
-            background: #2d3748;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-family: monospace;
-            display: inline-flex;
-            align-items: center;
-            margin: 10px 0;
-            box-shadow: 0 3px 10px rgba(45, 55, 72, 0.3);
-        }
-        
-        .method {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-weight: bold;
-            margin-right: 15px;
-            font-size: 0.9em;
-            text-transform: uppercase;
-        }
-        
-        .method.post {
-            background-color: #22c55e;
-            color: white;
-        }
-        
-        .method.get {
-            background-color: #3b82f6;
-            color: white;
-        }
-        
-        .method.patch {
-            background-color: #f59e0b;
-            color: white;
-        }
-        
-        .method.delete {
-            background-color: #ef4444;
-            color: white;
-        }
-        
-        .file-tree {
-            background: #f7fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 20px;
-            font-family: monospace;
-            line-height: 1.6;
-            margin: 20px 0;
-        }
-        
-        .file-tree .folder {
-            color: #3b82f6;
-            font-weight: bold;
-        }
-        
-        .file-tree .file {
-            color: #22c55e;
-        }
-        
-        .file-tree .config {
-            color: #f59e0b;
-        }
-        
-        .tech-stack {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 25px 0;
-        }
-        
-        .tech-item {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-            border-left: 4px solid #667eea;
-            transition: transform 0.3s ease;
-        }
-        
-        .tech-item:hover {
-            transform: translateY(-5px);
-        }
-        
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
-        }
-        
-        .feature-card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            border-top: 4px solid #667eea;
-            transition: all 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-        
-        .feature-icon {
-            font-size: 2em;
-            margin-bottom: 15px;
-        }
-        
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        
-        .status-success {
-            background-color: #22c55e;
-            color: white;
-        }
-        
-        .status-warning {
-            background-color: #f59e0b;
-            color: white;
-        }
-        
-        .status-info {
-            background-color: #3b82f6;
-            color: white;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
-            h1 {
-                font-size: 2.2em;
-            }
-            
-            .nav ul {
-                grid-template-columns: 1fr;
-            }
-            
-            .section {
-                padding: 25px;
-            }
-        }
+        #markdown-content h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: .3em;}
+        #markdown-content h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: .3em;}
+        #markdown-content h3 { font-size: 1.25em; }
+        #markdown-content h4 { font-size: 1em; }
+        #markdown-content p { margin-bottom: 16px; }
+        #markdown-content ul, #markdown-content ol { padding-left: 2em; margin-bottom: 16px; }
+        #markdown-content li { margin-bottom: .25em; }
+        #markdown-content blockquote { margin: 0 0 16px; padding: 0 1em; color: #6a737d; border-left: .25em solid #dfe2e5;}
+        #markdown-content table { display: block; width: 100%; overflow: auto; margin-bottom: 16px; border-spacing: 0; border-collapse: collapse; }
+        #markdown-content th, #markdown-content td { padding: 6px 13px; border: 1px solid #dfe2e5; }
+        #markdown-content tr { background-color: #fff; border-top: 1px solid #c6cbd1; }
+        #markdown-content tr:nth-child(2n) { background-color: #f6f8fa; }
+        #markdown-content img { max-width:100%; height:auto; }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>🐾 Missing Pets Backend API</h1>
-            <div class="subtitle">Complete Documentation & Developer Guide</div>
-            <div class="version-badge">Version 1.0.0 | Node.js Express MongoDB</div>
-        </header>
-
-        <nav class="nav">
+        <nav>
             <ul>
-                <li><a href="#overview">🎯 Overview</a></li>
-                <li><a href="#architecture">🏗️ Architecture</a></li>
-                <li><a href="#authentication">🔐 Authentication</a></li>
-                <li><a href="#endpoints">🔗 API Endpoints</a></li>
-                <li><a href="#models">📊 Data Models</a></li>
-                <li><a href="#realtime">⚡ Real-time Features</a></li>
-                <li><a href="#security">🛡️ Security</a></li>
-                <li><a href="#testing">🧪 Testing</a></li>
-                <li><a href="#deployment">🚀 Deployment</a></li>
-                <li><a href="#troubleshooting">🔧 Troubleshooting</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="attachment-upload-documentation.html">Attachment Upload Docs</a></li>
             </ul>
         </nav>
 
-        <section id="overview" class="section">
-            <h2>🎯 System Overview</h2>
-            
-            <p>The Missing Pets Backend API is a comprehensive RESTful service designed to help reunite lost pets with their owners. Built with modern Node.js technologies, it provides a robust foundation for pet management, reporting, and real-time communication features.</p>
-            
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">👥</div>
-                    <h3>User Management</h3>
-                    <p>Complete user registration, authentication, and profile management with JWT-based security.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🐕</div>
-                    <h3>Pet Profiles</h3>
-                    <p>Create detailed pet profiles with photos, physical characteristics, and ownership tracking.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📍</div>
-                    <h3>Geospatial Reports</h3>
-                    <p>Location-based missing/found pet reports with radius search capabilities.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Real-time Updates</h3>
-                    <p>Socket.io integration for instant notifications and live report updates.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📸</div>
-                    <h3>File Uploads</h3>
-                    <p>Secure multi-file upload system with CDN integration and type validation.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>Enterprise Security</h3>
-                    <p>Rate limiting, input validation, authentication middleware, and comprehensive logging.</p>
-                </div>
-            </div>
+        <h1>Complete API Documentation</h1>
 
-            <div class="highlight">
-                <h3>🎯 Key Features</h3>
-                <ul>
-                    <li><strong>RESTful API Design</strong> - Clean, predictable endpoints following REST principles</li>
-                    <li><strong>MongoDB Integration</strong> - Flexible document-based data storage with Mongoose ODM</li>
-                    <li><strong>Real-time Communication</strong> - Socket.io for instant updates and notifications</li>
-                    <li><strong>Geospatial Queries</strong> - Advanced location-based search with MongoDB 2dsphere indexing</li>
-                    <li><strong>File Management</strong> - Comprehensive upload system with security validation</li>
-                    <li><strong>Production Ready</strong> - Logging, error handling, rate limiting, and monitoring</li>
-                </ul>
-            </div>
-        </section>
+        <div id="markdown-content">
+            <!-- Markdown content will be injected here -->
+        </div>
+    </div>
 
-        <section id="architecture" class="section">
-            <h2>🏗️ System Architecture</h2>
-            
-            <h3>Technology Stack</h3>
-            <div class="tech-stack">
-                <div class="tech-item">
-                    <h4>🚀 Runtime & Framework</h4>
-                    <ul>
-                        <li><strong>Node.js 18+</strong> - JavaScript runtime</li>
-                        <li><strong>Express.js 5.x</strong> - Web application framework</li>
-                        <li><strong>Socket.io 4.x</strong> - Real-time communication</li>
-                    </ul>
-                </div>
-                <div class="tech-item">
-                    <h4>💾 Database & ODM</h4>
-                    <ul>
-                        <li><strong>MongoDB Atlas</strong> - Cloud database</li>
-                        <li><strong>Mongoose 8.x</strong> - MongoDB object modeling</li>
-                        <li><strong>2dsphere Indexing</strong> - Geospatial queries</li>
-                    </ul>
-                </div>
-                <div class="tech-item">
-                    <h4>🔐 Security & Auth</h4>
-                    <ul>
-                        <li><strong>JWT</strong> - Token-based authentication</li>
-                        <li><strong>bcryptjs</strong> - Password hashing</li>
-                        <li><strong>express-rate-limit</strong> - Rate limiting</li>
-                    </ul>
-                </div>
-                <div class="tech-item">
-                    <h4>📊 Utilities & Tools</h4>
-                    <ul>
-                        <li><strong>Winston</strong> - Comprehensive logging</li>
-                        <li><strong>Multer</strong> - File upload handling</li>
-                        <li><strong>express-validator</strong> - Input validation</li>
-                    </ul>
-                </div>
-            </div>
+    <script>
+        const markdownText = `
+# Missing Pets Backend API
 
-            <h3>Project Structure</h3>
-            <div class="file-tree">
-<span class="folder">missing_pets/</span>
-├── <span class="file">app.js</span>                    # Main application entry point
-├── <span class="config">package.json</span>             # Dependencies and scripts
-├── <span class="config">nodemon.json</span>             # Development configuration
-├── <span class="config">.env</span>                     # Environment variables
-├── <span class="folder">config/</span>
-│   └── <span class="file">socket.js</span>              # Socket.io configuration
-├── <span class="folder">controllers/</span>             # Business logic layer
-│   ├── <span class="file">authController.js</span>      # Authentication logic
-│   ├── <span class="file">petController.js</span>       # Pet management logic
-│   ├── <span class="file">reportController.js</span>    # Report management logic
-│   └── <span class="file">userController.js</span>      # User management logic
-├── <span class="folder">middleware/</span>              # Custom middleware
-│   ├── <span class="file">attachment-upload.js</span>   # File upload handling
-│   ├── <span class="file">is-auth.js</span>             # JWT authentication
-│   └── <span class="file">rate-limiter.js</span>        # Rate limiting rules
-├── <span class="folder">models/</span>                  # Database schemas
-│   ├── <span class="file">User.js</span>                # User data model
-│   ├── <span class="file">Pet.js</span>                 # Pet data model
-│   └── <span class="file">Report.js</span>              # Report data model
-├── <span class="folder">routes/</span>                  # API route definitions
-│   ├── <span class="file">auth.js</span>                # Authentication routes
-│   ├── <span class="file">users.js</span>               # User management routes
-│   ├── <span class="file">pets.js</span>                # Pet management routes
-│   └── <span class="file">reports.js</span>             # Report management routes
-├── <span class="folder">utils/</span>                   # Utility functions
-│   ├── <span class="file">helpers.js</span>             # Helper functions
-│   ├── <span class="file">logger.js</span>              # Winston logger setup
-│   └── <span class="file">validation.js</span>          # Input validation rules
-├── <span class="folder">tests/</span>                   # Test suites
-│   ├── <span class="file">auth.test.js</span>           # Authentication tests
-│   ├── <span class="file">pets.test.js</span>           # Pet management tests
-│   ├── <span class="file">reports.test.js</span>        # Report tests
-│   └── <span class="file">setup.js</span>               # Test configuration
-├── <span class="folder">attachments/</span>             # File upload storage
-├── <span class="folder">logs/</span>                    # Application logs
-└── <span class="folder">docs/</span>                    # Documentation
-            </div>
+A comprehensive RESTful API for a Missing Pets application built with Node.js, Express.js, MongoDB, and Socket.io. This backend enables users to register, manage pets, and report missing or found pets with real-time updates and geospatial search capabilities.
 
-            <h3>Request Flow Architecture</h3>
-            <div class="code-block">
-Client Request
-    ↓
-CORS + Rate Limiting Middleware
-    ↓
-Route Handler (/auth, /users, /pets, /reports)
-    ↓
-Authentication Middleware (if protected)
-    ↓
-Validation Middleware (express-validator)
-    ↓
-File Upload Middleware (if needed)
-    ↓
-Controller Logic
-    ↓
-Database Operation (MongoDB via Mongoose)
-    ↓
-Response + Socket.io Broadcast (if applicable)
-    ↓
-Client Receives Response
-            </div>
+## 🚀 Features
 
-            <div class="info">
-                <h3>🔄 Real-time Architecture</h3>
-                <p>The system implements a dual communication pattern:</p>
-                <ul>
-                    <li><strong>HTTP REST API</strong> - Standard CRUD operations with authentication</li>
-                    <li><strong>WebSocket (Socket.io)</strong> - Real-time notifications for report updates</li>
-                    <li><strong>Namespace Isolation</strong> - Separate <code>/reports</code> namespace for geospatial subscriptions</li>
-                    <li><strong>Authentication</strong> - JWT verification for both HTTP and WebSocket connections</li>
-                </ul>
-            </div>
-        </section>
+- **User Management**: Registration, authentication (JWT), profile management (including admin routes).
+- **Pet CRUD**: Create, read, update, delete pet records with detailed characteristics.
+- **Report System**: Lost, found, and reunited pet reports with geospatial location.
+- **Real-time Updates**: Socket.io integration for live notifications on report creation and updates within subscribed regions.
+- **File Uploads**: Photo upload support for pets and reports, served via a CDN-like path.
+- **Geospatial Search**: Radius-based search for nearby reports.
+- **Security**: JWT authentication, password hashing (bcryptjs), rate limiting, input validation, CORS.
+- **Logging**: Comprehensive logging with Winston.
+- **Health Check**: Endpoint to monitor application status.
 
-        <section id="authentication" class="section">
-            <h2>🔐 Authentication System</h2>
-            
-            <h3>JWT-Based Authentication</h3>
-            <p>The API uses JSON Web Tokens (JWT) for stateless authentication. All protected endpoints require a valid Bearer token in the Authorization header.</p>
+## 🛠️ Tech Stack
 
-            <div class="code-block">
-// Token Format
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+- **Runtime**: Node.js (as specified in \`package.json\`)
+- **Framework**: Express.js
+- **Database**: MongoDB Atlas via Mongoose
+- **Real-Time**: Socket.io
+- **Authentication**: JSON Web Tokens (jsonwebtoken)
+- **Password Hashing**: bcryptjs
+- **File Uploads**: Multer
+- **Validation**: express-validator
+- **Logging**: Winston
+- **Environment Management**: dotenv
+- **CORS**: cors package
+- **HTTP Server**: Node.js \`http\` module
 
-// Token Payload
-{
-  "userId": "647abc123def456789",
-  "email": "user@example.com",
-  "iat": 1684567890,
-  "exp": 1684654290
-}
-            </div>
+## 📚 API Documentation
 
-            <h3>Authentication Endpoints</h3>
-            
-            <h4>User Registration</h4>
-            <div class="endpoint">
-                <span class="method post">POST</span> /auth/signup
-            </div>
-            <div class="code-block">
-// Request Body
+All API endpoints requiring authentication must include an \`Authorization\` header with a Bearer token: \`Authorization: Bearer <your-jwt-token>\`.
+
+### Authentication Endpoints
+
+#### \`POST /auth/signup\`
+Register a new user account.
+**Request Body:**
+\'\'\'json
 {
   "name": "John Doe",
-  "email": "john@example.com", 
-  "password": "securePassword123",
+  "email": "john@example.com",
+  "password": "password123",
   "phone": "+1234567890"
 }
-
-// Response (201 Created)
+\'\'\'
+**Response (Success 201):**
+\'\'\'json
 {
   "message": "User created successfully",
+  "token": "jwt-token-here",
   "user": {
-    "id": "647abc123def456789",
-    "name": "John Doe",
-    "email": "john@example.com",
-    "phone": "+1234567890",
-    "createdAt": "2025-05-24T10:30:00.000Z"
-  },
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-}
-            </div>
-
-            <h4>User Login</h4>
-            <div class="endpoint">
-                <span class="method post">POST</span> /auth/login
-            </div>
-            <div class="code-block">
-// Request Body
-{
-  "email": "john@example.com",
-  "password": "securePassword123"
-}
-
-// Response (200 OK)
-{
-  "message": "Login successful",
-  "user": {
-    "id": "647abc123def456789",
+    "_id": "user-id",
     "name": "John Doe",
     "email": "john@example.com",
     "phone": "+1234567890"
-  },
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  }
 }
-            </div>
+\'\'\'
 
-            <div class="warning">
-                <h3>🔒 Security Features</h3>
-                <ul>
-                    <li><strong>Password Hashing</strong> - bcrypt with salt rounds of 12</li>
-                    <li><strong>Rate Limiting</strong> - 5 auth attempts per 15 minutes per IP</li>
-                    <li><strong>Input Validation</strong> - Comprehensive validation with express-validator</li>
-                    <li><strong>Token Expiration</strong> - Configurable JWT expiration time</li>
-                    <li><strong>Password Requirements</strong> - Minimum 6 characters (configurable)</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="endpoints" class="section">
-            <h2>🔗 API Endpoints</h2>
-            
-            <h3>User Management</h3>
-            
-            <h4>Get User Profile</h4>
-            <div class="endpoint">
-                <span class="method get">GET</span> /users/me
-            </div>
-            <p><strong>Description:</strong> Get the authenticated user's profile information</p>
-            <div class="code-block">
-// Headers
-Authorization: Bearer {token}
-
-// Response (200 OK)
+#### \`POST /auth/login\`
+Authenticate user and get an access token.
+**Request Body:**
+\'\'\'json
 {
+  "email": "john@example.com",
+  "password": "password123"
+}
+\'\'\'
+**Response (Success 200):**
+\'\'\'json
+{
+  "message": "Logged in successfully",
+  "token": "jwt-token-here",
   "user": {
-    "id": "647abc123def456789",
+    "_id": "user-id",
     "name": "John Doe",
     "email": "john@example.com",
-    "phone": "+1234567890",
-    "createdAt": "2025-05-24T10:30:00.000Z",
-    "updatedAt": "2025-05-24T10:30:00.000Z"
+    "phone": "+1234567890"
   }
 }
-            </div>
-
-            <h4>Update Profile</h4>
-            <div class="endpoint">
-                <span class="method patch">PATCH</span> /users/me
-            </div>
-            <div class="code-block">
-// Request Body
-{
-  "name": "John Smith",
-  "phone": "+1987654321"
-}
-
-// Response (200 OK)
-{
-  "message": "Profile updated successfully",
-  "user": {
-    "id": "647abc123def456789",
-    "name": "John Smith",
-    "email": "john@example.com",
-    "phone": "+1987654321",
-    "updatedAt": "2025-05-24T11:45:00.000Z"
-  }
-}
-            </div>
-
-            <h3>Pet Management</h3>
-            
-            <h4>Create Pet Profile</h4>
-            <div class="endpoint">
-                <span class="method post">POST</span> /pets
-            </div>
-            <p><strong>Description:</strong> Create a new pet profile with optional photo uploads</p>
-            <div class="code-block">
-// Content-Type: multipart/form-data
-// Form Fields:
-name: "Buddy"
-breed: "Golden Retriever"
-height: 60
-weight: 30
-color: "golden"
-isOwnedByCreator: true
-attachments: [file1.jpg, file2.jpg]
-
-// Response (201 Created)
-{
-  "message": "Pet created successfully",
-  "pet": {
-    "id": "647def123abc456789",
-    "name": "Buddy",
-    "breed": "Golden Retriever", 
-    "height": 60,
-    "weight": 30,
-    "color": "golden",
-    "photos": [
-      "/attachments/2025-05-24T13-07-02.451Z-buddy1.jpg",
-      "/attachments/2025-05-24T13-07-02.602Z-buddy2.jpg"
-    ],
-    "owner": "647abc123def456789",
-    "createdBy": "647abc123def456789",
-    "isOwnedByCreator": true,
-    "createdAt": "2025-05-24T13:07:02.451Z"
-  }
-}
-            </div>
-
-            <h4>Get All Pets</h4>
-            <div class="endpoint">
-                <span class="method get">GET</span> /pets?page=1&limit=10&breed=Golden&color=golden
-            </div>
-            <div class="code-block">
-// Query Parameters (all optional)
-page: 1          // Page number for pagination
-limit: 10        // Items per page (max 100)
-breed: "Golden"  // Filter by breed
-color: "golden"  // Filter by color
-name: "Buddy"    // Filter by name
-
-// Response (200 OK)
-{
-  "pets": [
-    {
-      "id": "647def123abc456789",
-      "name": "Buddy",
-      "breed": "Golden Retriever",
-      "height": 60,
-      "weight": 30,
-      "color": "golden",
-      "photos": ["/attachments/2025-05-24T13-07-02.451Z-buddy1.jpg"],
-      "owner": {
-        "id": "647abc123def456789",
-        "name": "John Doe",
-        "email": "john@example.com"
-      },
-      "createdAt": "2025-05-24T13:07:02.451Z"
-    }
-  ],
-  "pagination": {
-    "currentPage": 1,
-    "totalPages": 5,
-    "totalItems": 42,
-    "itemsPerPage": 10
-  }
-}
-            </div>
-
-            <h4>Update Pet</h4>
-            <div class="endpoint">
-                <span class="method patch">PATCH</span> /pets/:id
-            </div>
-            <div class="code-block">
-// Content-Type: multipart/form-data
-// Form Fields:
-name: "Buddy Updated"
-weight: 32
-attachments: [new_photo.jpg]
-
-// Response (200 OK)
-{
-  "message": "Pet updated successfully",
-  "pet": {
-    "id": "647def123abc456789",
-    "name": "Buddy Updated",
-    "weight": 32,
-    "photos": [
-      "/attachments/2025-05-24T13-07-02.451Z-buddy1.jpg",
-      "/attachments/2025-05-24T15-20-15.123Z-new_photo.jpg"
-    ],
-    "updatedAt": "2025-05-24T15:20:15.123Z"
-  }
-}
-            </div>
-
-            <h3>Report Management</h3>
-            
-            <h4>Create Missing/Found Report</h4>
-            <div class="endpoint">
-                <span class="method post">POST</span> /reports
-            </div>
-            <div class="code-block">
-// Content-Type: multipart/form-data
-// Form Fields:
-petId: "647def123abc456789"
-status: "lost"                    // "lost" or "found"
-description: "Last seen in Central Park"
-latitude: 40.7829
-longitude: -73.9654
-attachments: [evidence.jpg]
-
-// Response (201 Created)
-{
-  "message": "Report created successfully",
-  "report": {
-    "id": "647ghi123jkl456789",
-    "pet": "647def123abc456789",
-    "reporter": "647abc123def456789",
-    "status": "lost",
-    "description": "Last seen in Central Park",
-    "location": {
-      "type": "Point",
-      "coordinates": [-73.9654, 40.7829]
-    },
-    "photos": ["/attachments/2025-05-24T15-30-20.456Z-evidence.jpg"],
-    "createdAt": "2025-05-24T15:30:20.456Z"
-  }
-}
-            </div>
-
-            <h4>Geospatial Search</h4>
-            <div class="endpoint">
-                <span class="method get">GET</span> /reports?lat=40.7829&lng=-73.9654&radius=5000
-            </div>
-            <div class="code-block">
-// Query Parameters
-lat: 40.7829      // Latitude for center point
-lng: -73.9654     // Longitude for center point  
-radius: 5000      // Search radius in meters
-status: "lost"    // Filter by status
-page: 1           // Pagination
-limit: 20         // Items per page
-
-// Response (200 OK)
-{
-  "reports": [
-    {
-      "id": "647ghi123jkl456789",
-      "pet": {
-        "id": "647def123abc456789",
-        "name": "Buddy",
-        "breed": "Golden Retriever",
-        "photos": ["/attachments/buddy.jpg"]
-      },
-      "status": "lost",
-      "description": "Last seen in Central Park",
-      "location": {
-        "type": "Point",
-        "coordinates": [-73.9654, 40.7829]
-      },
-      "distance": 245,  // Distance in meters from search point
-      "createdAt": "2025-05-24T15:30:20.456Z"
-    }
-  ],
-  "pagination": {
-    "currentPage": 1,
-    "totalPages": 3,
-    "totalItems": 25
-  }
-}
-            </div>
-
-            <div class="info">
-                <h3>📍 Geospatial Features</h3>
-                <ul>
-                    <li><strong>2dsphere Indexing</strong> - MongoDB geospatial indexing for fast location queries</li>
-                    <li><strong>Radius Search</strong> - Find reports within specified distance from a point</li>
-                    <li><strong>Distance Calculation</strong> - Automatic distance calculation in response</li>
-                    <li><strong>GeoJSON Format</strong> - Standard GeoJSON Point format for coordinates</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="models" class="section">
-            <h2>📊 Data Models</h2>
-            
-            <h3>User Model</h3>
-            <div class="code-block">
-{
-  "_id": ObjectId,
-  "name": String (required, trimmed),
-  "email": String (required, unique, lowercase),
-  "password": String (required, hashed with bcrypt),
-  "phone": String (optional, trimmed),
-  "createdAt": Date (auto-generated),
-  "updatedAt": Date (auto-updated)
-}
-
-// Pre-save middleware:
-// - Hashes password with bcrypt (salt rounds: 12)
-// - Only hashes if password is modified
-
-// Instance methods:
-// - comparePassword(candidatePassword) - compares plain text with hash
-// - toJSON() - removes password from JSON output
-            </div>
-
-            <h3>Pet Model</h3>
-            <div class="code-block">
-{
-  "_id": ObjectId,
-  "owner": ObjectId (ref: 'User', optional),
-  "createdBy": ObjectId (ref: 'User', required),
-  "name": String (optional, trimmed),
-  "breed": String (optional, trimmed),
-  "height": Number (optional, positive, in cm),
-  "weight": Number (optional, positive, in kg),
-  "color": String (optional, trimmed, lowercase),
-  "photos": [String] (array of CDN URLs),
-  "isOwnedByCreator": Boolean (default: false),
-  "createdAt": Date,
-  "updatedAt": Date
-}
-
-// Validation:
-// - At least one of: name, breed, or photos must be provided
-// - Height and weight must be positive numbers
-// - If isOwnedByCreator is true, owner is set to createdBy
-            </div>
-
-            <h3>Report Model</h3>
-            <div class="code-block">
-{
-  "_id": ObjectId,
-  "pet": ObjectId (ref: 'Pet', required),
-  "reporter": ObjectId (ref: 'User', required), 
-  "status": String (enum: ['lost', 'found'], required),
-  "description": String (optional, trimmed),
-  "photos": [String] (array of CDN URLs),
-  "location": {
-    "type": String (enum: ['Point'], required),
-    "coordinates": [Number] ([longitude, latitude], required)
-  },
-  "createdAt": Date,
-  "updatedAt": Date
-}
-
-// Indexes:
-// - 2dsphere index on location field for geospatial queries
-// - Compound index on pet + status for efficient filtering
-
-// Validation:
-// - Coordinates must be array of exactly 2 numbers
-// - Location type must be 'Point' (GeoJSON format)
-            </div>
-
-            <div class="highlight">
-                <h3>🔗 Relationships</h3>
-                <ul>
-                    <li><strong>User → Pet</strong>: One-to-many (user can own/create multiple pets)</li>
-                    <li><strong>User → Report</strong>: One-to-many (user can create multiple reports)</li>
-                    <li><strong>Pet → Report</strong>: One-to-many (pet can have multiple reports)</li>
-                    <li><strong>Population</strong>: Automatic population of referenced documents in responses</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="realtime" class="section">
-            <h2>⚡ Real-time Features</h2>
-            
-            <h3>Socket.io Integration</h3>
-            <p>The API provides real-time updates for report activities using Socket.io with JWT authentication.</p>
-
-            <h4>Connection Setup</h4>
-            <div class="code-block">
-// Client-side connection
-const socket = io('http://localhost:8080/reports', {
-  auth: {
-    token: 'your-jwt-token'
-  }
-});
-
-// Connection events
-socket.on('connect', () => {
-  console.log('Connected to reports namespace');
-});
-
-socket.on('disconnect', () => {
-  console.log('Disconnected from reports namespace');
-});
-            </div>
-
-            <h4>Regional Subscriptions</h4>
-            <div class="code-block">
-// Subscribe to reports in a specific region
-socket.emit('subscribeRegion', {
-  lat: 40.7829,
-  lng: -73.9654,
-  radius: 5000  // 5km radius
-});
-
-// Receive real-time notifications
-socket.on('newReport', (report) => {
-  console.log('New report in your area:', report);
-});
-
-socket.on('reportUpdate', (report) => {
-  console.log('Report updated:', report);
-});
-
-socket.on('reportDeleted', (reportId) => {
-  console.log('Report deleted:', reportId);
-});
-            </div>
-
-            <h4>Broadcast Events</h4>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Event</th>
-                        <th>Trigger</th>
-                        <th>Payload</th>
-                        <th>Recipients</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code>newReport</code></td>
-                        <td>POST /reports</td>
-                        <td>Complete report object</td>
-                        <td>Users subscribed to the region</td>
-                    </tr>
-                    <tr>
-                        <td><code>reportUpdate</code></td>
-                        <td>PATCH /reports/:id</td>
-                        <td>Updated report object</td>
-                        <td>Users subscribed to the region</td>
-                    </tr>
-                    <tr>
-                        <td><code>reportDeleted</code></td>
-                        <td>DELETE /reports/:id</td>
-                        <td>Report ID</td>
-                        <td>Users subscribed to the region</td>
-                    </tr>
-                    <tr>
-                        <td><code>error</code></td>
-                        <td>Invalid subscription</td>
-                        <td>Error message</td>
-                        <td>Individual user</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="success">
-                <h3>🌟 Real-time Benefits</h3>
-                <ul>
-                    <li><strong>Instant Notifications</strong> - Users get immediate alerts for nearby reports</li>
-                    <li><strong>Geospatial Filtering</strong> - Only relevant regional updates are sent</li>
-                    <li><strong>Authenticated Connections</strong> - JWT verification for WebSocket connections</li>
-                    <li><strong>Namespace Isolation</strong> - Separate namespace for report-specific events</li>
-                    <li><strong>Connection Management</strong> - Automatic cleanup and reconnection handling</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="security" class="section">
-            <h2>🛡️ Security & Middleware</h2>
-            
-            <h3>Authentication Middleware</h3>
-            <div class="code-block">
-// JWT Token Verification
-const isAuth = (req, res, next) => {
-  const authHeader = req.get('Authorization');
-  if (!authHeader) {
-    throw new Error('Not authenticated.', 401);
-  }
-  
-  const token = authHeader.split(' ')[1]; // Bearer token
-  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-  
-  req.userId = decodedToken.userId;
-  req.email = decodedToken.email;
-  next();
-};
-            </div>
-
-            <h3>Rate Limiting Strategy</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Endpoint Type</th>
-                        <th>Window</th>
-                        <th>Max Requests</th>
-                        <th>Purpose</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>General API</td>
-                        <td>15 minutes</td>
-                        <td>100 requests</td>
-                        <td>Prevent API abuse</td>
-                    </tr>
-                    <tr>
-                        <td>Authentication</td>
-                        <td>15 minutes</td>
-                        <td>5 requests</td>
-                        <td>Prevent brute force attacks</td>
-                    </tr>
-                    <tr>
-                        <td>File Uploads</td>
-                        <td>1 hour</td>
-                        <td>20 requests</td>
-                        <td>Prevent storage abuse</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>Input Validation</h3>
-            <div class="code-block">
-// User Registration Validation
-const signupValidation = [
-  body('name')
-    .trim()
-    .isLength({ min: 2, max: 50 })
-    .withMessage('Name must be 2-50 characters'),
-  body('email')
-    .isEmail()
-    .normalizeEmail()
-    .withMessage('Invalid email format'),
-  body('password')
-    .isLength({ min: 6 })
-    .withMessage('Password must be at least 6 characters'),
-  body('phone')
-    .optional()
-    .isMobilePhone()
-    .withMessage('Invalid phone number format')
-];
-
-// Geospatial Validation
-const geospatialValidation = [
-  query('lat')
-    .optional()
-    .isFloat({ min: -90, max: 90 })
-    .withMessage('Latitude must be between -90 and 90'),
-  query('lng')
-    .optional()
-    .isFloat({ min: -180, max: 180 })
-    .withMessage('Longitude must be between -180 and 180'),
-  query('radius')
-    .optional()
-    .isInt({ min: 100, max: 50000 })
-    .withMessage('Radius must be between 100 and 50000 meters')
-];
-            </div>
-
-            <h3>File Upload Security</h3>
-            <div class="code-block">
-// Allowed MIME Types
-const allowedMimeTypes = [
-  // Images
-  'image/png', 'image/jpeg', 'image/webp',
-  // Videos  
-  'video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/webm',
-  // Documents
-  'application/pdf', 'text/plain', 'text/csv',
-  // Archives
-  'application/zip', 'application/x-rar-compressed'
-];
-
-// File Filter Function
-const fileFilter = (req, file, cb) => {
-  if (allowedMimeTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    const error = new Error(`File type not allowed: ${file.mimetype}`);
-    error.statusCode = 400;
-    cb(error, false);
-  }
-};
-            </div>
-
-            <div class="warning">
-                <h3>🚨 Security Recommendations</h3>
-                <ul>
-                    <li><strong>Environment Variables</strong> - Never commit sensitive data like JWT secrets</li>
-                    <li><strong>HTTPS</strong> - Always use HTTPS in production for encrypted communication</li>
-                    <li><strong>File Size Limits</strong> - Implement maximum file size restrictions</li>
-                    <li><strong>Virus Scanning</strong> - Consider virus scanning for uploaded files</li>
-                    <li><strong>Database Security</strong> - Use MongoDB Atlas security features</li>
-                    <li><strong>Regular Updates</strong> - Keep dependencies updated for security patches</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="testing" class="section">
-            <h2>🧪 Testing Framework</h2>
-            
-            <h3>Test Structure</h3>
-            <p>The API includes comprehensive test suites using Jest with proper setup and teardown procedures.</p>
-
-            <div class="code-block">
-// Test Files Structure
-tests/
-├── setup.js              # Test configuration and database setup
-├── auth.test.js          # Authentication endpoint tests
-├── pets.test.js          # Pet management tests
-└── reports.test.js       # Report management and geospatial tests
-
-// Additional Test Files
-test-api.js               # Manual API testing script
-test-attachment-upload.js # File upload system tests
-            </div>
-
-            <h3>Running Tests</h3>
-            <div class="code-block">
-# Run all tests
-npm test
-
-# Run tests in watch mode
-npm run test:watch
-
-# Run tests with coverage report
-npm run test:coverage
-
-# Run specific test file
-npm test -- auth.test.js
-
-# Run specific test pattern
-npm test -- --grep "authentication"
-            </div>
-
-            <h3>Test Categories</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Test Suite</th>
-                        <th>Coverage</th>
-                        <th>Key Features</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Authentication Tests</td>
-                        <td>User registration, login, JWT validation</td>
-                        <td>Rate limiting, password hashing, token generation</td>
-                    </tr>
-                    <tr>
-                        <td>Pet Management Tests</td>
-                        <td>CRUD operations, file uploads, validation</td>
-                        <td>Ownership tracking, photo uploads, filtering</td>
-                    </tr>
-                    <tr>
-                        <td>Report Tests</td>
-                        <td>Geospatial queries, real-time updates</td>
-                        <td>Location-based search, Socket.io integration</td>
-                    </tr>
-                    <tr>
-                        <td>File Upload Tests</td>
-                        <td>Multi-file uploads, CDN URLs, validation</td>
-                        <td>File type filtering, storage integration</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="success">
-                <h3>✅ Test Results Summary</h3>
-                <ul>
-                    <li><strong>Authentication</strong> <span class="status-badge status-success">PASSING</span> - All auth flows work correctly</li>
-                    <li><strong>Pet Management</strong> <span class="status-badge status-success">PASSING</span> - CRUD operations and file uploads verified</li>
-                    <li><strong>Geospatial Reports</strong> <span class="status-badge status-success">PASSING</span> - Location queries and real-time features working</li>
-                    <li><strong>File Upload System</strong> <span class="status-badge status-success">PASSING</span> - All upload scenarios tested and validated</li>
-                    <li><strong>Security Features</strong> <span class="status-badge status-success">PASSING</span> - Rate limiting and validation working</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="deployment" class="section">
-            <h2>🚀 Deployment Guide</h2>
-            
-            <h3>Environment Configuration</h3>
-            <div class="code-block">
-# Production Environment Variables
-NODE_ENV=production
-PORT=8080
-
-# Database Configuration
-MONGO_USER=your-production-username
-MONGO_PASSWORD=your-secure-password
-DEFAULT_DATABASE=MissingPetsProd
-
-# Security Configuration
-JWT_SECRET=your-very-secure-jwt-secret-key-256-bits
-JWT_EXPIRES_IN=24h
-
-# CORS Configuration
-CLIENT_URL=https://your-frontend-domain.com
-
-# CDN Configuration
-CDN_BASE_URL=https://your-cdn-domain.com
-
-# Logging Configuration
-LOG_LEVEL=info
-LOG_FILE_ENABLED=true
-
-# Rate Limiting (adjust for production traffic)
-RATE_LIMIT_WINDOW=900000     # 15 minutes
-RATE_LIMIT_MAX=200           # Max requests per window
-            </div>
-
-            <h3>Deployment Options</h3>
-            <div class="tech-stack">
-                <div class="tech-item">
-                    <h4>🐳 Docker Deployment</h4>
-                    <div class="code-block">
-# Dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-EXPOSE 8080
-CMD ["node", "app.js"]
-
-# docker-compose.yml
-version: '3.8'
-services:
-  api:
-    build: .
-    ports:
-      - "8080:8080"
-    environment:
-      - NODE_ENV=production
-    volumes:
-      - ./attachments:/app/attachments
-      - ./logs:/app/logs
-                    </div>
-                </div>
-                <div class="tech-item">
-                    <h4>☁️ Heroku Deployment</h4>
-                    <div class="code-block">
-# Install Heroku CLI and login
-heroku login
-
-# Create Heroku app
-heroku create your-app-name
-
-# Set environment variables
-heroku config:set NODE_ENV=production
-heroku config:set JWT_SECRET=your-secret
-heroku config:set MONGO_USER=username
-heroku config:set MONGO_PASSWORD=password
-
-# Deploy
-git push heroku main
-                    </div>
-                </div>
-                <div class="tech-item">
-                    <h4>🌐 AWS/DigitalOcean</h4>
-                    <div class="code-block">
-# PM2 Process Manager
-npm install -g pm2
-
-# Start with PM2
-pm2 start ecosystem.config.js
-
-# ecosystem.config.js
-module.exports = {
-  apps: [{
-    name: 'missing-pets-api',
-    script: './app.js',
-    instances: 'max',
-    exec_mode: 'cluster',
-    env: {
-      NODE_ENV: 'production',
-      PORT: 8080
-    }
-  }]
-};
-                    </div>
-                </div>
-            </div>
-
-            <h3>Production Checklist</h3>
-            <div class="warning">
-                <h3>📋 Pre-Deployment Checklist</h3>
-                <ul>
-                    <li>✅ Environment variables configured and secured</li>
-                    <li>✅ Database connection strings updated for production</li>
-                    <li>✅ JWT secret is cryptographically secure (256+ bits)</li>
-                    <li>✅ CORS origins restricted to your domain</li>
-                    <li>✅ Rate limiting configured for expected traffic</li>
-                    <li>✅ File upload limits and security measures in place</li>
-                    <li>✅ Logging configured for production monitoring</li>
-                    <li>✅ Health check endpoint responding correctly</li>
-                    <li>✅ SSL/TLS certificates configured</li>
-                    <li>✅ Database indexes created for performance</li>
-                </ul>
-            </div>
-
-            <h3>Monitoring & Maintenance</h3>
-            <div class="code-block">
-# Health Check Endpoint
-GET /health
-
-# Response
+\'\'\'
+
+### User Endpoints (Authentication Required)
+
+#### \`GET /users/me\`
+Get the profile of the currently authenticated user.
+**Response (Success 200):** User object.
+
+#### \`PATCH /users/me\`
+Update the profile of the currently authenticated user.
+**Request Body:** Fields to update (e.g., name, phone, password).
+**Response (Success 200):** Updated user object.
+
+#### \`DELETE /users/me\`
+Delete the account of the currently authenticated user.
+**Response (Success 200):** Confirmation message.
+
+### Admin User Endpoints (Authentication Required, Admin Privileges)
+
+#### \`GET /users\`
+List all users (pagination available).
+**Query Parameters:**
+- \`page\` (number, optional): Page number for pagination.
+- \`limit\` (number, optional): Number of items per page.
+**Response (Success 200):** Array of user objects.
+
+#### \`GET /users/:id\`
+Get a specific user by ID.
+**Response (Success 200):** User object.
+
+#### \`PATCH /users/:id\`
+Update a specific user by ID.
+**Request Body:** Fields to update.
+**Response (Success 200):** Updated user object.
+
+#### \`DELETE /users/:id\`
+Delete a specific user by ID.
+**Response (Success 200):** Confirmation message.
+
+### Pet Endpoints (Authentication Required)
+
+#### \`POST /pets\`
+Create a new pet record.
+**Request Body (\`multipart/form-data\`):**
+- \`name\` (String)
+- \`breed\` (String, optional)
+- \`height\` (Number, optional)
+- \`weight\` (Number, optional)
+- \`color\` (String, optional)
+- \`attachments\` (File, optional): Pet photo(s).
+**Response (Success 201):** Created pet object.
+
+#### \`GET /pets\`
+List pets (pagination and filters available).
+**Query Parameters:**
+- \`page\` (number, optional)
+- \`limit\` (number, optional)
+- \`name\` (String, optional): Filter by pet name.
+- \`breed\` (String, optional): Filter by pet breed.
+- \`color\` (String, optional): Filter by pet color.
+- \`hasOwner\` (Boolean, optional): Filter pets that have an owner.
+**Response (Success 200):** Array of pet objects.
+
+#### \`GET /pets/:id\`
+Get a specific pet by ID.
+**Response (Success 200):** Pet object.
+
+#### \`PATCH /pets/:id\`
+Update a specific pet by ID.
+**Request Body (\`multipart/form-data\`):** Fields to update (same as POST).
+**Response (Success 200):** Updated pet object.
+
+#### \`DELETE /pets/:id\`
+Delete a specific pet by ID.
+**Response (Success 200):** Confirmation message.
+
+### Report Endpoints (Authentication Required)
+
+#### \`POST /reports\`
+Create a new missing/found pet report.
+**Request Body (\`multipart/form-data\`):**
+- \`pet\` (String, Pet ID)
+- \`status\` (String, enum: \`lost\`, \`found\`, \`reunited\`)
+- \`description\` (String, optional)
+- \`location\` (Object): GeoJSON Point (e.g., \`{ "type": "Point", "coordinates": [longitude, latitude] }\`)
+- \`attachments\` (File, optional): Report photo(s).
+**Response (Success 201):** Created report object.
+
+#### \`GET /reports\`
+List reports (pagination, filters, geospatial search available).
+**Query Parameters:**
+- \`page\` (number, optional)
+- \`limit\` (number, optional)
+- \`status\` (String, optional, enum: \`lost\`, \`found\`, \`reunited\`): Filter by report status.
+- \`petId\` (String, optional): Filter by Pet ID.
+- \`reporterId\` (String, optional): Filter by User ID of the reporter.
+- \`dateFrom\` (String, optional, ISO Date): Filter reports from this date.
+- \`dateTo\` (String, optional, ISO Date): Filter reports up to this date.
+- \`lat\` (Number, optional): Latitude for geospatial search.
+- \`lng\` (Number, optional): Longitude for geospatial search.
+- \`radius\` (Number, optional): Search radius in meters (used with \`lat\` and \`lng\`).
+**Response (Success 200):** Array of report objects.
+
+#### \`GET /reports/:id\`
+Get a specific report by ID.
+**Response (Success 200):** Report object.
+
+#### \`PATCH /reports/:id\`
+Update a specific report by ID.
+**Request Body (\`multipart/form-data\`):** Fields to update (same as POST).
+**Response (Success 200):** Updated report object.
+
+#### \`PATCH /reports/:id/found\`
+Mark a specific report\'s pet as found (sets status to \`reunited\` or similar).
+**Response (Success 200):** Updated report object.
+
+#### \`DELETE /reports/:id\`
+Delete a specific report by ID.
+**Response (Success 200):** Confirmation message.
+
+### Health Check
+
+#### \`GET /health\`
+Provides the health status of the server.
+**Response (Success 200):**
+\'\'\'json
 {
   "status": "OK",
-  "timestamp": "2025-05-24T15:30:20.456Z",
-  "uptime": 3600
+  "timestamp": "YYYY-MM-DDTHH:mm:ss.sssZ",
+  "uptime": 1234.56 // seconds
 }
+\'\'\'
 
-# Log Files
-logs/
-├── combined.log    # All logs
-├── error.log      # Error logs only
-└── access.log     # Request logs
+## 🔌 WebSocket Events
 
-# Performance Monitoring
-- Monitor CPU and memory usage
-- Track response times
-- Monitor database connection pool
-- Set up alerts for error rates
-            </div>
-        </section>
+The API uses Socket.io for real-time communication, primarily for report updates.
 
-        <section id="troubleshooting" class="section">
-            <h2>🔧 Troubleshooting Guide</h2>
-            
-            <h3>Common Issues</h3>
-            
-            <h4>1. Database Connection Issues</h4>
-            <div class="code-block">
-Error: MongoServerSelectionError: Could not connect to any servers
+-   **Namespace**: \`/reports\`
+-   **Authentication**: Connect to the namespace with a JWT token in the \`auth\` object:
+    \'\'\'javascript
+    const socket = io(\'http://your-server-url/reports\', {
+      auth: {
+        token: \'your-jwt-token\'
+      }
+    });
+    \'\'\'
 
-Solutions:
-1. Check MongoDB Atlas connection string
-2. Verify network access (IP whitelist)
-3. Confirm database credentials
-4. Check firewall settings
-5. Verify environment variables are loaded
+### Emitted Events (Server to Client)
 
-Debug Commands:
-# Test MongoDB connection
-node -e "const mongoose = require('mongoose'); mongoose.connect('your-connection-string').then(() => console.log('Connected')).catch(err => console.error(err));"
-            </div>
+-   \`newReport\`
+    -   **Payload**: The newly created report object.
+    -   **Description**: Emitted when a new report is successfully created and matches a client\'s subscribed region.
+-   \`updateReport\`
+    -   **Payload**: The updated report object.
+    -   **Description**: Emitted when an existing report is updated and matches a client\'s subscribed region.
 
-            <h4>2. Authentication Failures</h4>
-            <div class="code-block">
-Error: JsonWebTokenError: invalid token
+### Listened Events (Client to Server)
 
-Solutions:
-1. Verify JWT_SECRET is set correctly
-2. Check token expiration
-3. Ensure Authorization header format: "Bearer {token}"
-4. Confirm token was generated with same secret
+-   \`subscribeRegion\`
+    -   **Payload**:
+        \'\'\'json
+        {
+          "lat": 40.7128,    // Latitude of the center of the region
+          "lng": -74.0060,   // Longitude of the center of the region
+          "radius": 5000     // Radius in meters
+        }
+        \'\'\'
+    -   **Description**: Allows a client to subscribe to real-time updates for reports within a specific geographical area. The server will then only send \`newReport\` and \`updateReport\` events relevant to this region.
 
-Debug Commands:
-# Decode JWT token (without verification)
-node -e "console.log(JSON.stringify(require('jsonwebtoken').decode('your-token'), null, 2));"
-            </div>
+## 📊 Data Models
 
-            <h4>3. File Upload Issues</h4>
-            <div class="code-block">
-Error: ENOENT: no such file or directory
+All models include \`createdAt\` and \`updatedAt\` timestamps by default.
 
-Solutions:
-1. Check attachments directory exists and has write permissions
-2. Verify CDN_ATTACHMENTS_DIR path is correct
-3. Ensure adequate disk space
-4. Check file type is in allowedMimeTypes array
+### User
+- \`name\` (String, required)
+- \`email\` (String, required, unique, lowercase, trim)
+- \`password\` (String, required, minlength: 6) - Stored hashed.
+- \`phone\` (String, optional, trim)
+- \`isAdmin\` (Boolean, default: false)
 
-Debug Commands:
-# Check directory permissions
-ls -la attachments/
-# Test file upload manually
-curl -X POST -F "attachments=@test.jpg" http://localhost:8080/pets
-            </div>
+### Pet
+- \`owner\` (ObjectId, ref: 'User', optional, index: true) - The user who owns the pet.
+- \`createdBy\` (ObjectId, ref: 'User', required, index: true) - The user who created the pet record.
+- \`name\` (String, required, trim)
+- \`breed\` (String, optional, trim)
+- \`height\` (Number, optional, min: 0) - In cm.
+- \`weight\` (Number, optional, min: 0) - In kg.
+- \`color\` (String, optional, trim)
+- \`photos\` (Array of String URLs, default: []) - URLs of pet photos.
+- \`isOwnedByCreator\` (Boolean, default: true) - Indicates if the creator is the current owner.
 
-            <h4>4. Socket.io Connection Issues</h4>
-            <div class="code-block">
-Error: Authentication error on Socket.io connection
+### Report
+- \`pet\` (ObjectId, ref: 'Pet', required, index: true) - The pet this report is about.
+- \`reporter\` (ObjectId, ref: 'User', required, index: true) - The user who filed the report.
+- \`status\` (String, required, enum: ['lost', 'found', 'reunited'], default: 'lost', index: true)
+- \`description\` (String, optional, trim)
+- \`photos\` (Array of String URLs, default: []) - URLs of report-specific photos.
+- \`location\` (Object, required) - GeoJSON Point for the report\'s location.
+    - \`type\` (String, enum: ['Point'], required)
+    - \`coordinates\` (Array of Number, required, index: '2dsphere') - [longitude, latitude]
+- \`resolvedAt\` (Date, optional) - When the report was marked as 'reunited'.
 
-Solutions:
-1. Verify JWT token is valid
-2. Check token is passed in auth object during connection
-3. Confirm Socket.io namespace is correct (/reports)
-4. Verify CORS settings allow WebSocket connections
+        \`;
 
-Debug Commands:
-# Test Socket.io connection
-node -e "const io = require('socket.io-client'); const socket = io('http://localhost:8080/reports', {auth: {token: 'your-token'}}); socket.on('connect', () => console.log('Connected'));"
-            </div>
-
-            <h3>Performance Issues</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Symptom</th>
-                        <th>Possible Cause</th>
-                        <th>Solution</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Slow database queries</td>
-                        <td>Missing indexes</td>
-                        <td>Create indexes on frequently queried fields</td>
-                    </tr>
-                    <tr>
-                        <td>High memory usage</td>
-                        <td>Memory leaks in Socket.io</td>
-                        <td>Implement proper connection cleanup</td>
-                    </tr>
-                    <tr>
-                        <td>Slow file uploads</td>
-                        <td>Large file sizes</td>
-                        <td>Implement file size limits and compression</td>
-                    </tr>
-                    <tr>
-                        <td>Rate limit errors</td>
-                        <td>Aggressive client requests</td>
-                        <td>Adjust rate limit settings or implement client-side throttling</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>Debug Mode</h3>
-            <div class="code-block">
-# Enable debug logging
-DEBUG=* npm start
-
-# Enable specific debug namespaces
-DEBUG=express:*,socket.io:* npm start
-
-# Check application logs
-tail -f logs/combined.log
-
-# Monitor real-time errors
-tail -f logs/error.log
-
-# Check process status
-pm2 status
-pm2 logs missing-pets-api
-            </div>
-
-            <div class="info">
-                <h3>🆘 Getting Additional Help</h3>
-                <ul>
-                    <li><strong>Log Analysis</strong> - Check logs/error.log for detailed error messages</li>
-                    <li><strong>Health Check</strong> - Verify /health endpoint returns 200 OK</li>
-                    <li><strong>Environment Check</strong> - Confirm all required environment variables are set</li>
-                    <li><strong>Database Check</strong> - Test direct MongoDB connection outside the application</li>
-                    <li><strong>Network Check</strong> - Verify ports are open and accessible</li>
-                    <li><strong>Resource Check</strong> - Monitor CPU, memory, and disk usage</li>
-                </ul>
-            </div>
-        </section>
-
-        <footer style="text-align: center; padding: 60px 0; color: #718096; border-top: 2px solid #e2e8f0; margin-top: 60px; background: linear-gradient(135deg, #f8fafc, #e2e8f0); border-radius: 15px;">
-            <h3 style="color: #667eea; margin-bottom: 20px;">🐾 Missing Pets Backend API</h3>
-            <p style="font-size: 1.1em; margin-bottom: 10px;">Complete Documentation & Developer Guide</p>
-            <p style="margin-bottom: 20px;">Built with Node.js, Express.js, MongoDB, and Socket.io</p>
-            <div style="font-size: 0.9em; opacity: 0.8;">
-                <p>Last updated: May 24, 2025 | Version 1.0.0</p>
-                <p>Documentation includes: Authentication, API Endpoints, Real-time Features, Security, Testing & Deployment</p>
-            </div>
-        </footer>
-    </div>
+        document.getElementById('markdown-content').innerHTML = marked.parse(markdownText);
+        hljs.highlightAll();
+    </script>
 </body>
 </html>
