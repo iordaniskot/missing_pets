@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Complete API Documentation - Missing Pets</title>
@@ -9,7 +9,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.2.12/marked.min.js"></script>
+    <!-- marked.js script is no longer needed here -->
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -129,7 +129,7 @@
         margin-bottom: 5px;
       }
       /* Styles for Markdown content */
-      #markdown-content h1,
+      #markdown-content h1, /* Though top-level H1 is outside this div */
       #markdown-content h2,
       #markdown-content h3,
       #markdown-content h4,
@@ -140,138 +140,48 @@
         font-weight: 600;
         line-height: 1.25;
       }
-      #markdown-content h1 {
-        font-size: 2em;
-        border-bottom: 1px solid #eaecef;
-        padding-bottom: 0.3em;
-      }
-      #markdown-content h2 {
-        font-size: 1.5em;
-        border-bottom: 1px solid #eaecef;
-        padding-bottom: 0.3em;
-      }
-      #markdown-content h3 {
-        font-size: 1.25em;
-      }
-      #markdown-content h4 {
-        font-size: 1em;
-      }
-      #markdown-content p {
-        margin-bottom: 16px;
-      }
-      #markdown-content ul,
-      #markdown-content ol {
-        padding-left: 2em;
-        margin-bottom: 16px;
-      }
-      #markdown-content li {
-        margin-bottom: 0.25em;
-      }
-      #markdown-content blockquote {
-        margin: 0 0 16px;
-        padding: 0 1em;
-        color: #6a737d;
-        border-left: 0.25em solid #dfe2e5;
-      }
-      #markdown-content table {
-        display: block;
-        width: 100%;
-        overflow: auto;
-        margin-bottom: 16px;
-        border-spacing: 0;
-        border-collapse: collapse;
-      }
-      #markdown-content th,
-      #markdown-content td {
-        padding: 6px 13px;
-        border: 1px solid #dfe2e5;
-      }
-      #markdown-content tr {
-        background-color: #fff;
-        border-top: 1px solid #c6cbd1;
-      }
-      #markdown-content tr:nth-child(2n) {
-        background-color: #f6f8fa;
-      }
-      #markdown-content img {
-        max-width: 100%;
-        height: auto;
-      }
+      #markdown-content h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: .3em;}
+      #markdown-content h3 { font-size: 1.25em; }
+      #markdown-content h4 { font-size: 1em; }
+      #markdown-content p { margin-bottom: 16px; }
+      #markdown-content ul, #markdown-content ol { padding-left: 2em; margin-bottom: 16px; }
+      #markdown-content li { margin-bottom: .25em; }
+      #markdown-content blockquote { margin: 0 0 16px; padding: 0 1em; color: #6a737d; border-left: .25em solid #dfe2e5;}
+      #markdown-content table { display: block; width: 100%; overflow: auto; margin-bottom: 16px; border-spacing: 0; border-collapse: collapse; }
+      #markdown-content th, #markdown-content td { padding: 6px 13px; border: 1px solid #dfe2e5; }
+      #markdown-content tr { background-color: #fff; border-top: 1px solid #c6cbd1; }
+      #markdown-content tr:nth-child(2n) { background-color: #f6f8fa; }
+      #markdown-content img { max-width:100%; height:auto; }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div class="container">
-      <nav>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li>
-            <a href="attachment-upload-documentation.html"
-              >Attachment Upload Docs</a
-            >
-          </li>
-        </ul>
-      </nav>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="attachment-upload-documentation.html">Attachment Upload Docs</a></li>
+            </ul>
+        </nav>
 
-      <h1>Complete API Documentation</h1>
+        <h1>Complete API Documentation</h1>
 
-      <div id="markdown-content">
-        <!-- Markdown content will be injected here -->
-      </div>
-    </div>
+        <div id="markdown-content">
+            <h2 id="api-documentation">📚 API Documentation</h2>
+            <p>All API endpoints requiring authentication must include an <code>Authorization</code> header with a Bearer token: <code>Authorization: Bearer &lt;your-jwt-token&gt;</code>.</p>
 
-    <script>
-      const markdownText = `
-# Missing Pets Backend API
+            <h3 id="authentication-endpoints">Authentication Endpoints</h3>
 
-A comprehensive RESTful API for a Missing Pets application built with Node.js, Express.js, MongoDB, and Socket.io. This backend enables users to register, manage pets, and report missing or found pets with real-time updates and geospatial search capabilities.
-
-## 🚀 Features
-
-- **User Management**: Registration, authentication (JWT), profile management (including admin routes).
-- **Pet CRUD**: Create, read, update, delete pet records with detailed characteristics.
-- **Report System**: Lost, found, and reunited pet reports with geospatial location.
-- **Real-time Updates**: Socket.io integration for live notifications on report creation and updates within subscribed regions.
-- **File Uploads**: Photo upload support for pets and reports, served via a CDN-like path.
-- **Geospatial Search**: Radius-based search for nearby reports.
-- **Security**: JWT authentication, password hashing (bcryptjs), rate limiting, input validation, CORS.
-- **Logging**: Comprehensive logging with Winston.
-- **Health Check**: Endpoint to monitor application status.
-
-## 🛠️ Tech Stack
-
-- **Runtime**: Node.js (as specified in \`package.json\`)
-- **Framework**: Express.js
-- **Database**: MongoDB Atlas via Mongoose
-- **Real-Time**: Socket.io
-- **Authentication**: JSON Web Tokens (jsonwebtoken)
-- **Password Hashing**: bcryptjs
-- **File Uploads**: Multer
-- **Validation**: express-validator
-- **Logging**: Winston
-- **Environment Management**: dotenv
-- **CORS**: cors package
-- **HTTP Server**: Node.js \`http\` module
-
-## 📚 API Documentation
-
-All API endpoints requiring authentication must include an \`Authorization\` header with a Bearer token: \`Authorization: Bearer <your-jwt-token>\`.
-
-### Authentication Endpoints
-
-#### \`POST /auth/signup\`
-Register a new user account.
-**Request Body:**
-\'\'\'json
-{
+            <h4 id="post-auth-signup"><code>POST /auth/signup</code></h4>
+            <p>Register a new user account.</p>
+            <p><strong>Request Body:</strong></p>
+            <pre><code class="language-json">{
   "name": "John Doe",
   "email": "john@example.com",
   "password": "password123",
   "phone": "+1234567890"
-}
-\'\'\'
-**Response (Success 201):**
-\'\'\'json
-{
+}</code></pre>
+            <p><strong>Response (Success 201):</strong></p>
+            <pre><code class="language-json">{
   "message": "User created successfully",
   "token": "jwt-token-here",
   "user": {
@@ -280,21 +190,17 @@ Register a new user account.
     "email": "john@example.com",
     "phone": "+1234567890"
   }
-}
-\'\'\'
+}</code></pre>
 
-#### \`POST /auth/login\`
-Authenticate user and get an access token.
-**Request Body:**
-\'\'\'json
-{
+            <h4 id="post-auth-login"><code>POST /auth/login</code></h4>
+            <p>Authenticate user and get an access token.</p>
+            <p><strong>Request Body:</strong></p>
+            <pre><code class="language-json">{
   "email": "john@example.com",
   "password": "password123"
-}
-\'\'\'
-**Response (Success 200):**
-\'\'\'json
-{
+}</code></pre>
+            <p><strong>Response (Success 200):</strong></p>
+            <pre><code class="language-json">{
   "message": "Logged in successfully",
   "token": "jwt-token-here",
   "user": {
@@ -303,219 +209,247 @@ Authenticate user and get an access token.
     "email": "john@example.com",
     "phone": "+1234567890"
   }
-}
-\'\'\'
+}</code></pre>
 
-### User Endpoints (Authentication Required)
+            <h3 id="user-endpoints-authentication-required">User Endpoints (Authentication Required)</h3>
 
-#### \`GET /users/me\`
-Get the profile of the currently authenticated user.
-**Response (Success 200):** User object.
+            <h4 id="get-users-me"><code>GET /users/me</code></h4>
+            <p>Get the profile of the currently authenticated user.</p>
+            <p><strong>Response (Success 200):</strong> User object.</p>
 
-#### \`PATCH /users/me\`
-Update the profile of the currently authenticated user.
-**Request Body:** Fields to update (e.g., name, phone, password).
-**Response (Success 200):** Updated user object.
+            <h4 id="patch-users-me"><code>PATCH /users/me</code></h4>
+            <p>Update the profile of the currently authenticated user.</p>
+            <p><strong>Request Body:</strong> Fields to update (e.g., name, phone, password).</p>
+            <p><strong>Response (Success 200):</strong> Updated user object.</p>
 
-#### \`DELETE /users/me\`
-Delete the account of the currently authenticated user.
-**Response (Success 200):** Confirmation message.
+            <h4 id="delete-users-me"><code>DELETE /users/me</code></h4>
+            <p>Delete the account of the currently authenticated user.</p>
+            <p><strong>Response (Success 200):</strong> Confirmation message.</p>
 
-### Admin User Endpoints (Authentication Required, Admin Privileges)
+            <h3 id="admin-user-endpoints-authentication-required-admin-privileges">Admin User Endpoints (Authentication Required, Admin Privileges)</h3>
 
-#### \`GET /users\`
-List all users (pagination available).
-**Query Parameters:**
-- \`page\` (number, optional): Page number for pagination.
-- \`limit\` (number, optional): Number of items per page.
-**Response (Success 200):** Array of user objects.
+            <h4 id="get-users"><code>GET /users</code></h4>
+            <p>List all users (pagination available).</p>
+            <p><strong>Query Parameters:</strong></p>
+            <ul>
+                <li><code>page</code> (number, optional): Page number for pagination.</li>
+                <li><code>limit</code> (number, optional): Number of items per page.</li>
+            </ul>
+            <p><strong>Response (Success 200):</strong> Array of user objects.</p>
 
-#### \`GET /users/:id\`
-Get a specific user by ID.
-**Response (Success 200):** User object.
+            <h4 id="get-users-id"><code>GET /users/:id</code></h4>
+            <p>Get a specific user by ID.</p>
+            <p><strong>Response (Success 200):</strong> User object.</p>
 
-#### \`PATCH /users/:id\`
-Update a specific user by ID.
-**Request Body:** Fields to update.
-**Response (Success 200):** Updated user object.
+            <h4 id="patch-users-id"><code>PATCH /users/:id</code></h4>
+            <p>Update a specific user by ID.</p>
+            <p><strong>Request Body:</strong> Fields to update.</p>
+            <p><strong>Response (Success 200):</strong> Updated user object.</p>
 
-#### \`DELETE /users/:id\`
-Delete a specific user by ID.
-**Response (Success 200):** Confirmation message.
+            <h4 id="delete-users-id"><code>DELETE /users/:id</code></h4>
+            <p>Delete a specific user by ID.</p>
+            <p><strong>Response (Success 200):</strong> Confirmation message.</p>
 
-### Pet Endpoints (Authentication Required)
+            <h3 id="pet-endpoints-authentication-required">Pet Endpoints (Authentication Required)</h3>
 
-#### \`POST /pets\`
-Create a new pet record.
-**Request Body (\`multipart/form-data\`):**
-- \`name\` (String)
-- \`breed\` (String, optional)
-- \`height\` (Number, optional)
-- \`weight\` (Number, optional)
-- \`color\` (String, optional)
-- \`attachments\` (File, optional): Pet photo(s).
-**Response (Success 201):** Created pet object.
+            <h4 id="post-pets"><code>POST /pets</code></h4>
+            <p>Create a new pet record.</p>
+            <p><strong>Request Body (<code>multipart/form-data</code>):</strong></p>
+            <ul>
+                <li><code>name</code> (String)</li>
+                <li><code>breed</code> (String, optional)</li>
+                <li><code>height</code> (Number, optional)</li>
+                <li><code>weight</code> (Number, optional)</li>
+                <li><code>color</code> (String, optional)</li>
+                <li><code>attachments</code> (File, optional): Pet photo(s).</li>
+            </ul>
+            <p><strong>Response (Success 201):</strong> Created pet object.</p>
 
-#### \`GET /pets\`
-List pets (pagination and filters available).
-**Query Parameters:**
-- \`page\` (number, optional)
-- \`limit\` (number, optional)
-- \`name\` (String, optional): Filter by pet name.
-- \`breed\` (String, optional): Filter by pet breed.
-- \`color\` (String, optional): Filter by pet color.
-- \`hasOwner\` (Boolean, optional): Filter pets that have an owner.
-**Response (Success 200):** Array of pet objects.
+            <h4 id="get-pets"><code>GET /pets</code></h4>
+            <p>List pets (pagination and filters available).</p>
+            <p><strong>Query Parameters:</strong></p>
+            <ul>
+                <li><code>page</code> (number, optional)</li>
+                <li><code>limit</code> (number, optional)</li>
+                <li><code>name</code> (String, optional): Filter by pet name.</li>
+                <li><code>breed</code> (String, optional): Filter by pet breed.</li>
+                <li><code>color</code> (String, optional): Filter by pet color.</li>
+                <li><code>hasOwner</code> (Boolean, optional): Filter pets that have an owner.</li>
+            </ul>
+            <p><strong>Response (Success 200):</strong> Array of pet objects.</p>
 
-#### \`GET /pets/:id\`
-Get a specific pet by ID.
-**Response (Success 200):** Pet object.
+            <h4 id="get-pets-id"><code>GET /pets/:id</code></h4>
+            <p>Get a specific pet by ID.</p>
+            <p><strong>Response (Success 200):</strong> Pet object.</p>
 
-#### \`PATCH /pets/:id\`
-Update a specific pet by ID.
-**Request Body (\`multipart/form-data\`):** Fields to update (same as POST).
-**Response (Success 200):** Updated pet object.
+            <h4 id="patch-pets-id"><code>PATCH /pets/:id</code></h4>
+            <p>Update a specific pet by ID.</p>
+            <p><strong>Request Body (<code>multipart/form-data</code>):</strong> Fields to update (same as POST).</p>
+            <p><strong>Response (Success 200):</strong> Updated pet object.</p>
 
-#### \`DELETE /pets/:id\`
-Delete a specific pet by ID.
-**Response (Success 200):** Confirmation message.
+            <h4 id="delete-pets-id"><code>DELETE /pets/:id</code></h4>
+            <p>Delete a specific pet by ID.</p>
+            <p><strong>Response (Success 200):</strong> Confirmation message.</p>
 
-### Report Endpoints (Authentication Required)
+            <h3 id="report-endpoints-authentication-required">Report Endpoints (Authentication Required)</h3>
 
-#### \`POST /reports\`
-Create a new missing/found pet report.
-**Request Body (\`multipart/form-data\`):**
-- \`pet\` (String, Pet ID)
-- \`status\` (String, enum: \`lost\`, \`found\`, \`reunited\`)
-- \`description\` (String, optional)
-- \`location\` (Object): GeoJSON Point (e.g., \`{ "type": "Point", "coordinates": [longitude, latitude] }\`)
-- \`attachments\` (File, optional): Report photo(s).
-**Response (Success 201):** Created report object.
+            <h4 id="post-reports"><code>POST /reports</code></h4>
+            <p>Create a new missing/found pet report.</p>
+            <p><strong>Request Body (<code>multipart/form-data</code>):</strong></p>
+            <ul>
+                <li><code>pet</code> (String, Pet ID)</li>
+                <li><code>status</code> (String, enum: <code>lost</code>, <code>found</code>, <code>reunited</code>)</li>
+                <li><code>description</code> (String, optional)</li>
+                <li><code>location</code> (Object): GeoJSON Point (e.g., <code>{ "type": "Point", "coordinates": [longitude, latitude] }</code>)</li>
+                <li><code>attachments</code> (File, optional): Report photo(s).</li>
+            </ul>
+            <p><strong>Response (Success 201):</strong> Created report object.</p>
 
-#### \`GET /reports\`
-List reports (pagination, filters, geospatial search available).
-**Query Parameters:**
-- \`page\` (number, optional)
-- \`limit\` (number, optional)
-- \`status\` (String, optional, enum: \`lost\`, \`found\`, \`reunited\`): Filter by report status.
-- \`petId\` (String, optional): Filter by Pet ID.
-- \`reporterId\` (String, optional): Filter by User ID of the reporter.
-- \`dateFrom\` (String, optional, ISO Date): Filter reports from this date.
-- \`dateTo\` (String, optional, ISO Date): Filter reports up to this date.
-- \`lat\` (Number, optional): Latitude for geospatial search.
-- \`lng\` (Number, optional): Longitude for geospatial search.
-- \`radius\` (Number, optional): Search radius in meters (used with \`lat\` and \`lng\`).
-**Response (Success 200):** Array of report objects.
+            <h4 id="get-reports"><code>GET /reports</code></h4>
+            <p>List reports (pagination, filters, geospatial search available).</p>
+            <p><strong>Query Parameters:</strong></p>
+            <ul>
+                <li><code>page</code> (number, optional)</li>
+                <li><code>limit</code> (number, optional)</li>
+                <li><code>status</code> (String, optional, enum: <code>lost</code>, <code>found</code>, <code>reunited</code>): Filter by report status.</li>
+                <li><code>petId</code> (String, optional): Filter by Pet ID.</li>
+                <li><code>reporterId</code> (String, optional): Filter by User ID of the reporter.</li>
+                <li><code>dateFrom</code> (String, optional, ISO Date): Filter reports from this date.</li>
+                <li><code>dateTo</code> (String, optional, ISO Date): Filter reports up to this date.</li>
+                <li><code>lat</code> (Number, optional): Latitude for geospatial search.</li>
+                <li><code>lng</code> (Number, optional): Longitude for geospatial search.</li>
+                <li><code>radius</code> (Number, optional): Search radius in meters (used with <code>lat</code> and <code>lng</code>).</li>
+            </ul>
+            <p><strong>Response (Success 200):</strong> Array of report objects.</p>
 
-#### \`GET /reports/:id\`
-Get a specific report by ID.
-**Response (Success 200):** Report object.
+            <h4 id="get-reports-id"><code>GET /reports/:id</code></h4>
+            <p>Get a specific report by ID.</p>
+            <p><strong>Response (Success 200):</strong> Report object.</p>
 
-#### \`PATCH /reports/:id\`
-Update a specific report by ID.
-**Request Body (\`multipart/form-data\`):** Fields to update (same as POST).
-**Response (Success 200):** Updated report object.
+            <h4 id="patch-reports-id"><code>PATCH /reports/:id</code></h4>
+            <p>Update a specific report by ID.</p>
+            <p><strong>Request Body (<code>multipart/form-data</code>):</strong> Fields to update (same as POST).</p>
+            <p><strong>Response (Success 200):</strong> Updated report object.</p>
 
-#### \`PATCH /reports/:id/found\`
-Mark a specific report\'s pet as found (sets status to \`reunited\` or similar).
-**Response (Success 200):** Updated report object.
+            <h4 id="patch-reports-id-found"><code>PATCH /reports/:id/found</code></h4>
+            <p>Mark a specific report's pet as found (sets status to <code>reunited</code> or similar).</p>
+            <p><strong>Response (Success 200):</strong> Updated report object.</p>
 
-#### \`DELETE /reports/:id\`
-Delete a specific report by ID.
-**Response (Success 200):** Confirmation message.
+            <h4 id="delete-reports-id"><code>DELETE /reports/:id</code></h4>
+            <p>Delete a specific report by ID.</p>
+            <p><strong>Response (Success 200):</strong> Confirmation message.</p>
 
-### Health Check
+            <h3 id="file-upload-details">File Upload Details</h3>
+            <ul>
+                <li>Files are uploaded via <code>multipart/form-data</code>.</li>
+                <li>The field name for file(s) should be <code>attachments</code>.</li>
+                <li>Uploaded files are stored in the <code>/attachments</code> directory on the server and accessible via <code>/attachments/:filename</code> (e.g., <code>http://localhost:3000/attachments/yourfile.jpg</code>). The <code>CDN_BASE_URL</code> is used to construct the full URL in API responses.</li>
+            </ul>
 
-#### \`GET /health\`
-Provides the health status of the server.
-**Response (Success 200):**
-\'\'\'json
-{
+            <h3 id="health-check">Health Check</h3>
+            <h4 id="get-health"><code>GET /health</code></h4>
+            <p>Provides the health status of the server.</p>
+            <p><strong>Response (Success 200):</strong></p>
+            <pre><code class="language-json">{
   "status": "OK",
   "timestamp": "YYYY-MM-DDTHH:mm:ss.sssZ",
   "uptime": 1234.56 // seconds
-}
-\'\'\'
+}</code></pre>
 
-## 🔌 WebSocket Events
+            <h2 id="websocket-events">🔌 WebSocket Events</h2>
+            <p>The API uses Socket.io for real-time communication, primarily for report updates.</p>
+            <ul>
+                <li><strong>Namespace</strong>: <code>/reports</code></li>
+                <li><strong>Authentication</strong>: Connect to the namespace with a JWT token in the <code>auth</code> object:
+                    <pre><code class="language-javascript">const socket = io('http://your-server-url/reports', {
+  auth: {
+    token: 'your-jwt-token'
+  }
+});</code></pre>
+                </li>
+            </ul>
 
-The API uses Socket.io for real-time communication, primarily for report updates.
+            <h3 id="emitted-events-server-to-client">Emitted Events (Server to Client)</h3>
+            <ul>
+                <li><code>newReport</code>
+                    <ul>
+                        <li><strong>Payload</strong>: The newly created report object.</li>
+                        <li><strong>Description</strong>: Emitted when a new report is successfully created and matches a client's subscribed region.</li>
+                    </ul>
+                </li>
+                <li><code>updateReport</code>
+                    <ul>
+                        <li><strong>Payload</strong>: The updated report object.</li>
+                        <li><strong>Description</strong>: Emitted when an existing report is updated and matches a client's subscribed region.</li>
+                    </ul>
+                </li>
+            </ul>
 
--   **Namespace**: \`/reports\`
--   **Authentication**: Connect to the namespace with a JWT token in the \`auth\` object:
-    \'\'\'javascript
-    const socket = io(\'http://your-server-url/reports\', {
-      auth: {
-        token: \'your-jwt-token\'
-      }
-    });
-    \'\'\'
+            <h3 id="listened-events-client-to-server">Listened Events (Client to Server)</h3>
+            <ul>
+                <li><code>subscribeRegion</code>
+                    <ul>
+                        <li><strong>Payload</strong>:
+                            <pre><code class="language-json">{
+  "lat": 40.7128,    // Latitude of the center of the region
+  "lng": -74.0060,   // Longitude of the center of the region
+  "radius": 5000     // Radius in meters
+}</code></pre>
+                        </li>
+                        <li><strong>Description</strong>: Allows a client to subscribe to real-time updates for reports within a specific geographical area. The server will then only send <code>newReport</code> and <code>updateReport</code> events relevant to this region.</li>
+                    </ul>
+                </li>
+            </ul>
 
-### Emitted Events (Server to Client)
+            <h2 id="data-models">📊 Data Models</h2>
+            <p>All models include <code>createdAt</code> and <code>updatedAt</code> timestamps by default.</p>
 
--   \`newReport\`
-    -   **Payload**: The newly created report object.
-    -   **Description**: Emitted when a new report is successfully created and matches a client\'s subscribed region.
--   \`updateReport\`
-    -   **Payload**: The updated report object.
-    -   **Description**: Emitted when an existing report is updated and matches a client\'s subscribed region.
+            <h3 id="user-model">User</h3>
+            <ul>
+                <li><code>name</code> (String, required)</li>
+                <li><code>email</code> (String, required, unique, lowercase, trim)</li>
+                <li><code>password</code> (String, required, minlength: 6) - Stored hashed.</li>
+                <li><code>phone</code> (String, optional, trim)</li>
+                <li><code>isAdmin</code> (Boolean, default: false)</li>
+            </ul>
 
-### Listened Events (Client to Server)
+            <h3 id="pet-model">Pet</h3>
+            <ul>
+                <li><code>owner</code> (ObjectId, ref: 'User', optional, index: true) - The user who owns the pet.</li>
+                <li><code>createdBy</code> (ObjectId, ref: 'User', required, index: true) - The user who created the pet record.</li>
+                <li><code>name</code> (String, required, trim)</li>
+                <li><code>breed</code> (String, optional, trim)</li>
+                <li><code>height</code> (Number, optional, min: 0) - In cm.</li>
+                <li><code>weight</code> (Number, optional, min: 0) - In kg.</li>
+                <li><code>color</code> (String, optional, trim)</li>
+                <li><code>photos</code> (Array of String URLs, default: []) - URLs of pet photos.</li>
+                <li><code>isOwnedByCreator</code> (Boolean, default: true) - Indicates if the creator is the current owner.</li>
+            </ul>
 
--   \`subscribeRegion\`
-    -   **Payload**:
-        \'\'\'json
-        {
-          "lat": 40.7128,    // Latitude of the center of the region
-          "lng": -74.0060,   // Longitude of the center of the region
-          "radius": 5000     // Radius in meters
-        }
-        \'\'\'
-    -   **Description**: Allows a client to subscribe to real-time updates for reports within a specific geographical area. The server will then only send \`newReport\` and \`updateReport\` events relevant to this region.
+            <h3 id="report-model">Report</h3>
+            <ul>
+                <li><code>pet</code> (ObjectId, ref: 'Pet', required, index: true) - The pet this report is about.</li>
+                <li><code>reporter</code> (ObjectId, ref: 'User', required, index: true) - The user who filed the report.</li>
+                <li><code>status</code> (String, required, enum: ['lost', 'found', 'reunited'], default: 'lost', index: true)</li>
+                <li><code>description</code> (String, optional, trim)</li>
+                <li><code>photos</code> (Array of String URLs, default: []) - URLs of report-specific photos.</li>
+                <li><code>location</code> (Object, required) - GeoJSON Point for the report's location.
+                    <ul>
+                        <li><code>type</code> (String, enum: ['Point'], required)</li>
+                        <li><code>coordinates</code> (Array of Number, required, index: '2dsphere') - [longitude, latitude]</li>
+                    </ul>
+                </li>
+                <li><code>resolvedAt</code> (Date, optional) - When the report was marked as 'reunited'.</li>
+            </ul>
+        </div> <!-- end of #markdown-content -->
+    </div> <!-- end of .container -->
 
-## 📊 Data Models
-
-All models include \`createdAt\` and \`updatedAt\` timestamps by default.
-
-### User
-- \`name\` (String, required)
-- \`email\` (String, required, unique, lowercase, trim)
-- \`password\` (String, required, minlength: 6) - Stored hashed.
-- \`phone\` (String, optional, trim)
-- \`isAdmin\` (Boolean, default: false)
-
-### Pet
-- \`owner\` (ObjectId, ref: 'User', optional, index: true) - The user who owns the pet.
-- \`createdBy\` (ObjectId, ref: 'User', required, index: true) - The user who created the pet record.
-- \`name\` (String, required, trim)
-- \`breed\` (String, optional, trim)
-- \`height\` (Number, optional, min: 0) - In cm.
-- \`weight\` (Number, optional, min: 0) - In kg.
-- \`color\` (String, optional, trim)
-- \`photos\` (Array of String URLs, default: []) - URLs of pet photos.
-- \`isOwnedByCreator\` (Boolean, default: true) - Indicates if the creator is the current owner.
-
-### Report
-- \`pet\` (ObjectId, ref: 'Pet', required, index: true) - The pet this report is about.
-- \`reporter\` (ObjectId, ref: 'User', required, index: true) - The user who filed the report.
-- \`status\` (String, required, enum: ['lost', 'found', 'reunited'], default: 'lost', index: true)
-- \`description\` (String, optional, trim)
-- \`photos\` (Array of String URLs, default: []) - URLs of report-specific photos.
-- \`location\` (Object, required) - GeoJSON Point for the report\'s location.
-    - \`type\` (String, enum: ['Point'], required)
-    - \`coordinates\` (Array of Number, required, index: '2dsphere') - [longitude, latitude]
-- \`resolvedAt\` (Date, optional) - When the report was marked as 'reunited'.
-
-        \`;
-
-        document.getElementById('markdown-content').innerHTML = marked.parse(markdownText);
-        hljs.highlightAll();
-`;
-      </script>
-      <script>
+    <script>
         // Initialize highlight.js for code highlighting
-        hljs.highlightAll();
-      </script>
+        // Ensures that code blocks are highlighted after the DOM is fully loaded.
+        document.addEventListener('DOMContentLoaded', (event) => {
+            hljs.highlightAll();
+        });
     </script>
-  </body>
+</body>
 </html>
