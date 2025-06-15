@@ -41,6 +41,7 @@ app.use(generalLimiter);
 
 // Static files
 app.use("/attachments", express.static(path.join(__dirname, "attachments")));
+app.use("/docs", express.static(path.join(__dirname, "docs")));
 
 // Logging middleware
 app.use((req, res, next) => {
