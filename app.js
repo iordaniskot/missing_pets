@@ -112,10 +112,12 @@ mongoose.connect(MONGODB_URI, {
     logger.info("Connected to MongoDB");
     
     const PORT = process.env.PORT || 3000;
-    server.listen(PORT, () => {
-      logger.info(`Server is running on port ${PORT}`);
-      console.log(`Server is running on port ${PORT}`);
+    const HOST = process.env.HOST || '0.0.0.0'; // Bind to all interfaces for development
+    server.listen(PORT, HOST, () => {
+      logger.info(`Server is running on port ${PORT} (host: ${HOST})`);
+      console.log(`Server is running on port ${PORT} (host: ${HOST})`);
       console.log(`Health check available at: http://localhost:${PORT}/health`);
+      console.log(`Network access available at: http://192.168.2.27:${PORT}/health`);
     });
   })
   .catch((error) => {
