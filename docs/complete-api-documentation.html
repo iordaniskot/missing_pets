@@ -1,77 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Complete API Documentation - Missing Pets</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.2.12/marked.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; color: #333; }
-        h1, h2, h3, h4 { color: #2c3e50; }
-        h1 { border-bottom: 2px solid #3498db; padding-bottom: 10px; }
-        h2 { border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; }
-        pre code { display: block; padding: 10px; background-color: #2d2d2d; color: #f8f8f2; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; }
-        .container { max-width: 900px; margin: auto; }
-        nav { background-color: #f8f8f8; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
-        nav ul { list-style-type: none; padding: 0; }
-        nav ul li { display: inline; margin-right: 15px; }
-        nav ul li a { text-decoration: none; color: #007bff; }
-        nav ul li a:hover { text-decoration: underline; }
-        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .endpoint { margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9; }
-        .endpoint h3 { margin-top: 0; color: #3498db; }
-        .method { font-weight: bold; padding: 3px 8px; border-radius: 3px; color: white; margin-right: 10px; }
-        .post { background-color: #4CAF50; }
-        .get { background-color: #2196F3; }
-        .patch { background-color: #ff9800; }
-        .delete { background-color: #f44336; }
-        .request-body, .response, .query-params, .ws-event { margin-top: 10px; }
-        .request-body strong, .response strong, .query-params strong, .ws-event strong { display: block; margin-bottom: 5px; }
-         /* Styles for Markdown content */
-        #markdown-content h1, #markdown-content h2, #markdown-content h3, #markdown-content h4, #markdown-content h5, #markdown-content h6 {
-            margin-top: 24px;
-            margin-bottom: 16px;
-            font-weight: 600;
-            line-height: 1.25;
-        }
-        #markdown-content h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: .3em;}
-        #markdown-content h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: .3em;}
-        #markdown-content h3 { font-size: 1.25em; }
-        #markdown-content h4 { font-size: 1em; }
-        #markdown-content p { margin-bottom: 16px; }
-        #markdown-content ul, #markdown-content ol { padding-left: 2em; margin-bottom: 16px; }
-        #markdown-content li { margin-bottom: .25em; }
-        #markdown-content blockquote { margin: 0 0 16px; padding: 0 1em; color: #6a737d; border-left: .25em solid #dfe2e5;}
-        #markdown-content table { display: block; width: 100%; overflow: auto; margin-bottom: 16px; border-spacing: 0; border-collapse: collapse; }
-        #markdown-content th, #markdown-content td { padding: 6px 13px; border: 1px solid #dfe2e5; }
-        #markdown-content tr { background-color: #fff; border-top: 1px solid #c6cbd1; }
-        #markdown-content tr:nth-child(2n) { background-color: #f6f8fa; }
-        #markdown-content img { max-width:100%; height:auto; }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        color: #2c3e50;
+      }
+      h1 {
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+      }
+      h2 {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+      }
+      code {
+        background-color: #f4f4f4;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "Courier New", Courier, monospace;
+      }
+      pre code {
+        display: block;
+        padding: 10px;
+        background-color: #2d2d2d;
+        color: #f8f8f2;
+        border-radius: 4px;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+      }
+      nav {
+        background-color: #f8f8f8;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+      }
+      nav ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      nav ul li {
+        display: inline;
+        margin-right: 15px;
+      }
+      nav ul li a {
+        text-decoration: none;
+        color: #007bff;
+      }
+      nav ul li a:hover {
+        text-decoration: underline;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      .endpoint {
+        margin-bottom: 30px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+      .endpoint h3 {
+        margin-top: 0;
+        color: #3498db;
+      }
+      .method {
+        font-weight: bold;
+        padding: 3px 8px;
+        border-radius: 3px;
+        color: white;
+        margin-right: 10px;
+      }
+      .post {
+        background-color: #4caf50;
+      }
+      .get {
+        background-color: #2196f3;
+      }
+      .patch {
+        background-color: #ff9800;
+      }
+      .delete {
+        background-color: #f44336;
+      }
+      .request-body,
+      .response,
+      .query-params,
+      .ws-event {
+        margin-top: 10px;
+      }
+      .request-body strong,
+      .response strong,
+      .query-params strong,
+      .ws-event strong {
+        display: block;
+        margin-bottom: 5px;
+      }
+      /* Styles for Markdown content */
+      #markdown-content h1,
+      #markdown-content h2,
+      #markdown-content h3,
+      #markdown-content h4,
+      #markdown-content h5,
+      #markdown-content h6 {
+        margin-top: 24px;
+        margin-bottom: 16px;
+        font-weight: 600;
+        line-height: 1.25;
+      }
+      #markdown-content h1 {
+        font-size: 2em;
+        border-bottom: 1px solid #eaecef;
+        padding-bottom: 0.3em;
+      }
+      #markdown-content h2 {
+        font-size: 1.5em;
+        border-bottom: 1px solid #eaecef;
+        padding-bottom: 0.3em;
+      }
+      #markdown-content h3 {
+        font-size: 1.25em;
+      }
+      #markdown-content h4 {
+        font-size: 1em;
+      }
+      #markdown-content p {
+        margin-bottom: 16px;
+      }
+      #markdown-content ul,
+      #markdown-content ol {
+        padding-left: 2em;
+        margin-bottom: 16px;
+      }
+      #markdown-content li {
+        margin-bottom: 0.25em;
+      }
+      #markdown-content blockquote {
+        margin: 0 0 16px;
+        padding: 0 1em;
+        color: #6a737d;
+        border-left: 0.25em solid #dfe2e5;
+      }
+      #markdown-content table {
+        display: block;
+        width: 100%;
+        overflow: auto;
+        margin-bottom: 16px;
+        border-spacing: 0;
+        border-collapse: collapse;
+      }
+      #markdown-content th,
+      #markdown-content td {
+        padding: 6px 13px;
+        border: 1px solid #dfe2e5;
+      }
+      #markdown-content tr {
+        background-color: #fff;
+        border-top: 1px solid #c6cbd1;
+      }
+      #markdown-content tr:nth-child(2n) {
+        background-color: #f6f8fa;
+      }
+      #markdown-content img {
+        max-width: 100%;
+        height: auto;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="attachment-upload-documentation.html">Attachment Upload Docs</a></li>
-            </ul>
-        </nav>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li>
+            <a href="attachment-upload-documentation.html"
+              >Attachment Upload Docs</a
+            >
+          </li>
+        </ul>
+      </nav>
 
-        <h1>Complete API Documentation</h1>
+      <h1>Complete API Documentation</h1>
 
-        <div id="markdown-content">
-            <!-- Markdown content will be injected here -->
-        </div>
+      <div id="markdown-content">
+        <!-- Markdown content will be injected here -->
+      </div>
     </div>
 
     <script>
-        const markdownText = `
+      const markdownText = `
 # Missing Pets Backend API
 
 A comprehensive RESTful API for a Missing Pets application built with Node.js, Express.js, MongoDB, and Socket.io. This backend enables users to register, manage pets, and report missing or found pets with real-time updates and geospatial search capabilities.
@@ -361,6 +510,12 @@ All models include \`createdAt\` and \`updatedAt\` timestamps by default.
 
         document.getElementById('markdown-content').innerHTML = marked.parse(markdownText);
         hljs.highlightAll();
+`;
+      </script>
+      <script>
+        // Initialize highlight.js for code highlighting
+        hljs.highlightAll();
+      </script>
     </script>
-</body>
+  </body>
 </html>
